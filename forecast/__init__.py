@@ -2,6 +2,7 @@
 #__author__ = '10408001'
 from setting import Config_2
 from pymongo import MongoClient
+from datetime import date,datetime
 import mysql.connector
 import numpy as np
 import json
@@ -372,6 +373,7 @@ class CalcuFinance():
             print e.message
             raise
 
+    #取得損益平衡線
     def startCalcu(self,case_id):
         parameter=[]
         parameter.append(case_id)
@@ -386,6 +388,37 @@ class CalcuFinance():
         self.Combine_Total(result,data1)
         r = {'BalanceDate': data2}
         result.append(r)
+        return result
+
+    #取得浴盆曲線
+    def getBathtubCurve(self,case_id):
+        parameter = []
+        parameter.append(case_id)
+        data = self.getData('sp_get_bathtub_fincase', parameter)
+        return self.calcuFailureRate(data)
+
+    #計算浴盆曲線的失效率
+    def calcuFailureRate(self,data):
+        FirstAmount = 0
+        tmpDate,FirstDate = None , None
+        FailureRate = 0
+        result  = []
+        for row in data:
+            tmpDate = row[1]
+            r={}
+            if row[2]<> 'F':
+                # print tmpDate,FirstDate
+                d = abs(tmpDate-FirstDate).days
+                if d == 0 :
+                    d=1
+                if row[2] == 'O':
+                    FailureRate = round(float(abs(row[0])/1000)/d/365,4)
+                elif row[2] =='I':
+                    FailureRate = round(float(row[0] * -1 / 1000) / d / 365, 4)
+                r = {"FinanceDate": datetime.strftime(tmpDate,"%Y-%m-%d"), "FailureRate": FailureRate}
+                result.append(r)
+
+            FirstDate = tmpDate
         return result
 
     #收入/支出累計加總
@@ -437,11 +470,6 @@ class CalcuFinance():
             else:
                 r = {'Outcome_Total': [{'Total': float(row[0])}]}
                 result.append(r)
-
-    #加入資金餘額低於安全餘額的日期
-    def Combine_Date(self,result,data):
-        r={'BalanceDate':data}
-        result.append(r)
 
     #找出資金餘額低於安全餘額的日期
     def getFinDate(self,case_id):
@@ -637,7 +665,7 @@ class RegionSelect():
 
 
 if __name__ == '__main__':
-    Task=[False,False,False,False,False,True]
+    Task=[False,False,False,True,False,False]
 
     if Task[0]:
         PF = ProductForecast()
@@ -655,8 +683,8 @@ if __name__ == '__main__':
 
     if Task[3]:
         CF = CalcuFinance()
-        print CF.startCalcu('0db5ea17-2c92-11e6-b101-000c29c1d067')
-
+        # print CF.startCalcu('0db5ea17-2c92-11e6-b101-000c29c1d067')
+        print CF.getBathtubCurve('0db5ea17-2c92-11e6-b101-000c29c1d067')
     if Task[4]:
         PS = Persona()
         print PS.getPersona('1','1',3,2,2,3,2,3,3)

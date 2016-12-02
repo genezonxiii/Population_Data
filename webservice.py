@@ -63,7 +63,8 @@ class GetData():
             FinalData = Population_indicator_c()
             FinalData.Parsercsv(data[2])
         # return 'Success'
-        
+
+#取得新創公司財務損益平衡的模擬資料
 class GetCaseData():
     def GET(self,name):
         data=name.split('&')
@@ -142,7 +143,7 @@ class License():
         # http://192.168.112.164:8070/license/type=U2VydmljZQ==&quty=MTAw
         # type: U2VydmljZQ== (Service)
 
-#財務損益平衡
+#新創公司財務損益平衡
 class GetFinanceResult():
     def GET(self, name):
         data = name.split('&')
@@ -151,11 +152,20 @@ class GetFinanceResult():
 
         result = []
         cf=CalcuFinance()
-        result = cf.startCalcu(data[i])
+        if data[0]=='balance':
+            result = cf.startCalcu(data[1])
+        else:
+            result = cf.getBathtubCurve(data[1])
+
         web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
 
         resule = json.dumps(result)
         return resule
+
+    #損益平衡圖
+    #http://localhost:8080/finance/type=ZmluYW5jZQ==&case=MGRiNWVhMTctMmM5Mi0xMWU2LWIxMDEtMDAwYzI5YzFkMDY3
+    #浴盆曲線圖
+    #http://localhost:8080/finance/type=YmF0aHR1Yg==&case=MGRiNWVhMTctMmM5Mi0xMWU2LWIxMDEtMDAwYzI5YzFkMDY3
 
 #目標客群
 class GetPersona():
