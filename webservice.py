@@ -163,7 +163,7 @@ class GetFinanceResult():
         return resule
 
     #損益平衡圖
-    #http://localhost:8080/finance/type=ZmluYW5jZQ==&case=MGRiNWVhMTctMmM5Mi0xMWU2LWIxMDEtMDAwYzI5YzFkMDY3
+    #http://localhost:8080/finance/type=YmFsYW5jZQ==&case=MGRiNWVhMTctMmM5Mi0xMWU2LWIxMDEtMDAwYzI5YzFkMDY3
     #浴盆曲線圖
     #http://localhost:8080/finance/type=YmF0aHR1Yg==&case=MGRiNWVhMTctMmM5Mi0xMWU2LWIxMDEtMDAwYzI5YzFkMDY3
 
