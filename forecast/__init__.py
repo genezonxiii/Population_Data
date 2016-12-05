@@ -375,7 +375,7 @@ class CalcuFinance():
 
     #取得損益平衡線
     def startCalcu(self,case_id):
-        parameter=[]
+        parameter,data,data1,data2=[],[],[],[]
         parameter.append(case_id)
         data=self.getData('sp_calcu_fincase_rate',parameter)
         data1=self.getData('sp_calcu_fincase_total',parameter)
@@ -429,27 +429,27 @@ class CalcuFinance():
         for row in data:
             if type=='Income' and action == True :
                 if row[3] == 'I' and row[4] == True:
-                    Amount += float(row[0])
+                    Amount += row[0]
                     Percent += row[1]
-                    r = {'Amount': Amount,'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
+                    r = {'Amount': float(Amount),'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
                     tempresult.append(r)
             elif type=='Income' and action == False :
                 if row[3] == 'I' and row[4] == False:
-                    Amount += float(row[0])
+                    Amount += row[0]
                     Percent += row[1]
-                    r = {'Amount': Amount, 'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
+                    r = {'Amount': float(Amount), 'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
                     tempresult.append(r)
             elif type=='Outcome' and action == True:
                 if row[3] == 'O' and row[4] == True:
-                    Amount += float(row[0])
+                    Amount += row[0]
                     Percent += row[1]
-                    r = {'Amount': Amount,'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
+                    r = {'Amount': float(Amount),'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
                     tempresult.append(r)
             else:
                 if row[3] == 'O' and row[4] == False:
-                    Amount += float(row[0])
+                    Amount += row[0]
                     Percent += row[1]
-                    r = {'Amount': Amount, 'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
+                    r = {'Amount': float(Amount), 'Percent': round(Percent, 2), 'Date': row[2].strftime('%Y-%m-%d')}
                     tempresult.append(r)
 
         if type == 'Income' and action == True:
@@ -677,14 +677,20 @@ if __name__ == '__main__':
 
     if Task[2]:
         PL = ProductLicense()
+        #產生產品驗證碼
         print PL.getProductLicense('51ca0db0-9be7-11e6-922d-005056af760c')
+        #產生經銷商授權碼
         print PL.getChannelAuth('51ca0db0-9be7-11e6-922d-005056af760c','142adb0a-9be5-11e6-922d-005056af760c')
+        #產生服務識別碼
         print PL.getServiceLicense(10)
 
     if Task[3]:
         CF = CalcuFinance()
-        # print CF.startCalcu('0db5ea17-2c92-11e6-b101-000c29c1d067')
-        print CF.getBathtubCurve('0db5ea17-2c92-11e6-b101-000c29c1d067')
+        #損益平衡
+        print CF.startCalcu('57057e3a-9629-4a79-b5e4-19c9361f1b1a')
+        #浴盆曲線
+        # print CF.getBathtubCurve('0db5ea17-2c92-11e6-b101-000c29c1d067')
+
     if Task[4]:
         PS = Persona()
         print PS.getPersona('1','1',3,2,2,3,2,3,3)
