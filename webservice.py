@@ -203,6 +203,7 @@ class GetDecision():
         GD = None
         return json.dumps(result)
 
+        #商圈決策
         #http://localhost:8080/groupdecision/type=MQ==&case=MDk5MTBlNWMtNGJjNi00MjUzLWIxNjYtMjQwMWRjNzZlZDY1
 
 #區位選擇

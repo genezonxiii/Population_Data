@@ -26,10 +26,7 @@ class DecisionMain():
         # 參與人決策效力陣列
         PowerOfRoleSet=self.calcWeight(self.weight)
         # 決策方案政策偏好陣列
-        # PreferenceOfSolutionSet = self.calcWeight([1, 2, 3])
-        SolutionSet=[]
-        for i in range(len(self.case_name)):
-            SolutionSet.append(random.randint(1,3))
+        SolutionSet = self.getPreference(case_id)
         PreferenceOfSolutionSet = self.calcWeight(SolutionSet)
         # 參與人 首階 決策因子之重要性值資料矩陣
         self.getFactorValue_F1()
@@ -119,6 +116,19 @@ class DecisionMain():
         self.case_name=[]
         for row in result:
             self.case_name.append(row[0])
+
+    #取得決策偏好
+    def getPreference(self,case_id):
+        strSQL = "SELECT Preference FROM tb_case WHERE case_id='" + case_id + "'"
+        result = self.getData(strSQL)
+        Solutionresult = ''
+        Solution = []
+        for row in result:
+            Solutionresult = row[0]
+        strSolution = Solutionresult.split(',')
+        for row in strSolution:
+            Solution.append(int(row))
+        return Solution
 
     #取該次評估人員，權重及評分
     def getDesicionInfo(self,case_id):
@@ -843,7 +853,7 @@ class DecisionCompet():
 
 
 if __name__=="__main__":
-    work=[False,False,True]
+    work=[True,False,False]
 
     if work[0] == True :
         GD = DecisionMain()
