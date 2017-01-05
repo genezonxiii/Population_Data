@@ -247,7 +247,7 @@ class DecisionMain():
             for Solutiondata in strResult:
                 strSolutiondata = Solutiondata.split(',')
                 tmp = []
-                for i in range(len(strSolutiondata)):
+                for i in range(0,len(strSolutiondata),2):
                     #if row == strSolutiondata[i]:
                     if i > 0 :
                         tmp.append(int(strSolutiondata[i]))
@@ -539,7 +539,7 @@ class DecisionChannel():
             for Solutiondata in strResult:
                 strSolutiondata = Solutiondata.split(',')
                 tmp = []
-                for i in range(len(strSolutiondata)):
+                for i in range(0,len(strSolutiondata),2):
                     if i > 0 :
                         tmp.append(int(strSolutiondata[i]))
                 if tmp<>[]:
@@ -807,7 +807,7 @@ class DecisionCompet():
             for Solutiondata in strResult:
                 strSolutiondata = Solutiondata.split(',')
                 tmp = []
-                for i in range(len(strSolutiondata)):
+                for i in range(0,len(strSolutiondata),2):
                     if i > 0 :
                         tmp.append(int(strSolutiondata[i]))
                 if tmp<>[]:
@@ -857,7 +857,7 @@ if __name__=="__main__":
 
     if work[0] == True :
         GD = DecisionMain()
-        print GD.startCalcuate('09910e5c-4bc6-4253-b166-2401dc76ed65')
+        print GD.startCalcuate('794c9f6c-d244-11e6-ac11-005056af760c')
     elif work[1] == True :
         GD = DecisionChannel()
         print GD.startCalcuate('b79a6c79-4c07-4060-bbab-d41e6a9b5130')
