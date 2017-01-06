@@ -298,11 +298,13 @@ class DecisionMain():
             tmpresult, tmp = [], []
             intfinal = np.argmax(SolutionMatrix_A)
             for i in range(len(SolutionMatrix_A)):
-                r = {"bcircle": self.case_name[i], "score": SolutionMatrix_A[i]}
+                r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
                 tmpresult.append(r)
                 if i == intfinal:
-                    r = {"CalcuFinal": {"bcircle": self.case_name[i], "score": SolutionMatrix_A[i]}}
+                    r = {"CalcuFinal": {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}}
                     result.append(r)
+
+            tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
             result.append({"ResultSort": tmpresult})
             return result
         else:
@@ -577,6 +579,8 @@ class DecisionChannel():
                 if i == intfinal:
                     r = {"CalcuFinal": {"Channel": self.channel_name[i], "Score": SolutionMatrix_A[i]}}
                     result.append(r)
+
+            tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
             result.append({"ResultSort": tmpresult})
             return result
         else:
@@ -845,6 +849,8 @@ class DecisionCompet():
                 if i == intfinal:
                     r = {"CalcuFinal": {"Competitor": self.competition_name[i], "Score": SolutionMatrix_A[i]}}
                     result.append(r)
+
+            tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
             result.append({"ResultSort": tmpresult})
             return result
         else:
@@ -857,7 +863,7 @@ if __name__=="__main__":
 
     if work[0] == True :
         GD = DecisionMain()
-        print GD.startCalcuate('794c9f6c-d244-11e6-ac11-005056af760c')
+        print GD.startCalcuate('09910e5c-4bc6-4253-b166-2401dc76ed65')
     elif work[1] == True :
         GD = DecisionChannel()
         print GD.startCalcuate('b79a6c79-4c07-4060-bbab-d41e6a9b5130')
