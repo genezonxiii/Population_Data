@@ -91,8 +91,13 @@ class DecisionMain():
     #將計算結果寫回資料庫
     def updateDB(self,case_id,SolutionMatrix_A):
         strResult=''
+        tmpresult=[]
         for i in range(len(SolutionMatrix_A)):
-            strResult += self.case_name[i] + ',' + str(round(SolutionMatrix_A[i],5)) + ';'
+            r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
+            tmpresult.append(r)
+        tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
+        for row in tmpresult:
+            strResult += row.get("bcircle") + "," + str(round(row.get("Score"),5)) + ';'
 
         strSql = "UPDATE tb_case SET result='" + strResult + "',isfinish=true  WHERE case_id ='" + case_id + "'"
         try:
@@ -263,9 +268,6 @@ class DecisionMain():
                 tmp.append(row[i])
             self.SolutionMatrix_AllFactor.append(tmp)
 
-        # print self.SolutionMatrix_AllFactor
-        # exit()
-
         #求決策排序平均差-old
         # for row in tmpSolutionMatrix:
         #     print row[0]
@@ -396,8 +398,13 @@ class DecisionChannel():
     #將計算結果寫回資料庫
     def updateDB(self,channel_id,SolutionMatrix_A):
         strResult=''
+        tmpresult = []
         for i in range(len(SolutionMatrix_A)):
-            strResult += self.channel_name[i] + ',' + str(round(SolutionMatrix_A[i],5)) + ';'
+            r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
+            tmpresult.append(r)
+        tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
+        for row in tmpresult:
+            strResult += row.get("bcircle") + "," + str(round(row.get("Score"),5)) + ';'
 
         strSql = "UPDATE tb_case_channel SET result='" + strResult + "',isfinish=true  WHERE channel_id ='" + channel_id + "'"
         try:
@@ -671,8 +678,13 @@ class DecisionCompet():
     #將計算結果寫回資料庫
     def updateDB(self,competition_id,SolutionMatrix_A):
         strResult=''
+        tmpresult = []
         for i in range(len(SolutionMatrix_A)):
-            strResult += self.competition_name[i] + ',' + str(round(SolutionMatrix_A[i],5)) + ';'
+            r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
+            tmpresult.append(r)
+        tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
+        for row in tmpresult:
+            strResult += row.get("bcircle") + "," + str(round(row.get("Score"),5)) + ';'
 
         strSql = "UPDATE tb_case_competition SET result='" + strResult + "',isfinish=true  WHERE competition_id ='" + competition_id + "'"
         try:
