@@ -337,7 +337,7 @@ class DecisionChannel():
         # PreferenceOfSolutionSet = self.calcWeight([1, 2, 3])
         SolutionSet=[]
         for i in range(len(self.channel_name)):
-            SolutionSet.append(random.randint(1,3))
+            SolutionSet.append(random.randint(1,1))
         PreferenceOfSolutionSet = self.calcWeight(SolutionSet)
         # 參與人 首階 決策因子之重要性值資料矩陣
         self.getFactorValue_F1()
@@ -400,7 +400,7 @@ class DecisionChannel():
         strResult=''
         tmpresult = []
         for i in range(len(SolutionMatrix_A)):
-            r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
+            r = {"bcircle": self.channel_name[i], "Score": SolutionMatrix_A[i]}
             tmpresult.append(r)
         tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
         for row in tmpresult:
@@ -617,7 +617,7 @@ class DecisionCompet():
         # 決策方案政策偏好陣列
         SolutionSet=[]
         for i in range(len(self.competition_name)):
-            SolutionSet.append(random.randint(1,3))
+            SolutionSet.append(random.randint(1,1))
         PreferenceOfSolutionSet = self.calcWeight(SolutionSet)
         # 參與人 首階 決策因子之重要性值資料矩陣
         self.getFactorValue_F1()
@@ -680,7 +680,7 @@ class DecisionCompet():
         strResult=''
         tmpresult = []
         for i in range(len(SolutionMatrix_A)):
-            r = {"bcircle": self.case_name[i], "Score": SolutionMatrix_A[i]}
+            r = {"bcircle": self.competition_name[i], "Score": SolutionMatrix_A[i]}
             tmpresult.append(r)
         tmpresult = sorted(tmpresult, key=lambda k: k['Score'], reverse=True)
         for row in tmpresult:
@@ -871,7 +871,7 @@ class DecisionCompet():
 
 
 if __name__=="__main__":
-    work=[True,False,False]
+    work=[False,False,True]
 
     if work[0] == True :
         GD = DecisionMain()
@@ -881,4 +881,4 @@ if __name__=="__main__":
         print GD.startCalcuate('b79a6c79-4c07-4060-bbab-d41e6a9b5130')
     elif work[2] == True :
         GD = DecisionCompet()
-        print GD.startCalcuate('ce7c2e37-98b0-49cb-bbf7-db51fc9be456')
+        print GD.startCalcuate('4f3873ee-dbb1-11e6-ac11-005056af760c')
