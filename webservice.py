@@ -195,7 +195,7 @@ class GetDecision():
             GD = DecisionMain()
         elif data[1]== '2':
             GD = DecisionChannel()
-        else:
+        elif data[1]== '3':
             GD = DecisionCompet()
         result = GD.startCalcuate(data[1])
 
