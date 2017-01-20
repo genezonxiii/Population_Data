@@ -60,6 +60,7 @@ class OpenData_FiveYear_M:
     A35A39_M_CNT,A40A44_M_CNT,A45A49_M_CNT,A50A54_M_CNT,A55A59_M_CNT,
     A60A64_M_CNT,A65A69_M_CNT,A70A74_M_CNT,A75A79_M_CNT,A80A84_M_CNT,A85A89_M_CNT,
     A90A94_M_CNT,A95A99_M_CNT,A100UP_M_5_CNT))
+
 class OpenData_FiveYear_F:
     def ParserJson(self, url):
         result = json.load(urllib.urlopen(url))
@@ -101,6 +102,7 @@ class OpenData_FiveYear_F:
                      A55A59_F_CNT,A60A64_F_CNT, A65A69_F_CNT,A70A74_F_CNT,
                      A75A79_F_CNT, A80A84_F_CNT,A85A89_F_CNT,
                      A90A94_F_CNT, A95A99_F_CNT,A100UP_F_5_CNT))
+
 class OpenData_FiveYear_All:
     def ParserJson(self, url):
         result = json.load(urllib.urlopen(url))
@@ -141,6 +143,7 @@ class OpenData_FiveYear_All:
                      A35A39_CNT, A40A44_CNT, A45A49_CNT,A50A54_CNT, A55A59_CNT,
                      A60A64_CNT, A65A69_CNT,A70A74_CNT,A75A79_CNT, A80A84_CNT, A85A89_CNT,
                      A90A94_CNT, A95A99_CNT, A100UP_5_CNT))
+
 class OpenData_Population:
     def ParserJson(self,url):
         result = json.load(urllib.urlopen(url))
@@ -160,8 +163,6 @@ class OpenData_Population:
         F_CNT=row['F_CNT']
 
         data.append((PRODUCT_ID,INFO_TIME,CODE2,H_CNT,P_CNT,M_CNT,F_CNT))
-
-
 
 class OpenData_sex_marriage:
     def ParserJson(self, url):

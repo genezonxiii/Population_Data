@@ -4,7 +4,7 @@ import numpy as np
 import mysql.connector
 from setting import Config_2
 import random
-
+#商圈決策
 class DecisionMain():
     FactorValue_F1,FactorValue_FV1=[],[]
     FactorValue_F2,FactorValue_FV2=[],[]
@@ -313,6 +313,7 @@ class DecisionMain():
             r = {"bcircle": None, "score": None}
             return result.append(r)
 
+#通路決策
 class DecisionChannel():
     FactorValue_F1,FactorValue_FV1=[],[]
     FactorValue_F2,FactorValue_FV2=[],[]
@@ -594,6 +595,7 @@ class DecisionChannel():
             r = {"Channel": None, "Score": None}
             return result.append(r)
 
+#競爭力決策
 class DecisionCompet():
     FactorValue_F1,FactorValue_FV1=[],[]
     FactorValue_F2,FactorValue_FV2=[],[]
