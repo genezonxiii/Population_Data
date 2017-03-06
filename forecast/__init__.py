@@ -249,9 +249,9 @@ class findMSNews():
     def getNews(self):
         try:
             strSQL = "SELECT [EpaperTypeName],[Title],[Url],[pubname] FROM [CDRI].[dbo].[EpaperHistory] \
-                              where EpaperType ='1' and EpaperDate between CAST(year(getdate()) AS VARCHAR)\
-                              +'-'+CAST(month(getdate()) AS VARCHAR)+'-'+CAST(DAY(getdate()) AS VARCHAR)+' 00:00:00' \
-                              AND CAST(year(getdate()) AS VARCHAR)+'-'+CAST(month(getdate()) AS VARCHAR)" \
+                      where EpaperType ='1' and EpaperDate between CAST(year(getdate()) AS VARCHAR)\
+                      +'-'+CAST(month(getdate()) AS VARCHAR)+'-'+CAST(DAY(getdate()) AS VARCHAR)+' 00:00:00' \
+                      AND CAST(year(getdate()) AS VARCHAR)+'-'+CAST(month(getdate()) AS VARCHAR)" \
                      "+'-'+CAST(DAY(getdate()) AS VARCHAR)+' 23:59:59'  order by EpaperDate desc"
             self.conn = self.getConnection()
             cursor = self.conn.cursor()

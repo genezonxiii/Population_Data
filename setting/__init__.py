@@ -11,7 +11,7 @@ class Config:
         self.dbName = 'CDRI-SIIS'
         self.SIIS_User = 'cdri'
         self.SIIS_Pwd = 'cdriadmin'
-        self.SIIS_db = 'SIIS'
+        self.SIIS_db = 'CDRI'
 
 class Config_2:
     global dbServer,dbUser,dbPwd,dbName
