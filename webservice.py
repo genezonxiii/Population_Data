@@ -8,7 +8,7 @@ from population_data.age_education import *
 from population_data.population_indicator import *
 from CashFlow.CashFlowSim import *
 from UploadData import SBI_Data
-from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect
+from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews
 from GroupDecision import DecisionMain,DecisionChannel,DecisionCompet
 
 urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)",\
@@ -106,7 +106,7 @@ class Forecast():
 #讀取新聞
 class GetNews():
     def GET(self,name):
-        news=findNews()
+        news=findMSNews()
         data=news.getNews()
         web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
         resule = json.dumps(data)

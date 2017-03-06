@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #__author__ = '10408001'
-from setting import Config_2
+from setting import Config, Config_2
 from pymongo import MongoClient
 from datetime import date,datetime
 import mysql.connector
@@ -9,6 +9,7 @@ import json
 import uuid
 import pyqrcode
 import png
+import pymssql
 
 #新品風向預測
 class ProductForecast():
@@ -231,6 +232,40 @@ class findNews():
         except Exception as e:
             print e.message
             raise
+
+#從 MSSQL 讀取 SIIS 新聞
+class findMSNews():
+    conn = None
+    def __init__(self):
+        pass
+
+    def getConnection(self):
+        if(self.conn==None) :
+            config = Config()
+            return pymssql.connect(config.dbServer, config.SIIS_User, config.SIIS_Pwd, config.SIIS_db)
+        else:
+            return self.conn
+
+    def getNews(self):
+        try:
+            strSQL = "SELECT [EpaperTypeName],[Title],[Url],[pubname] FROM [CDRI].[dbo].[EpaperHistory] \
+                              where EpaperType ='1' and EpaperDate between CAST(year(getdate()) AS VARCHAR)\
+                              +'-'+CAST(month(getdate()) AS VARCHAR)+'-'+CAST(DAY(getdate()) AS VARCHAR)+' 00:00:00' \
+                              AND CAST(year(getdate()) AS VARCHAR)+'-'+CAST(month(getdate()) AS VARCHAR)" \
+                     "+'-'+CAST(DAY(getdate()) AS VARCHAR)+' 23:59:59'  order by EpaperDate desc"
+            self.conn = self.getConnection()
+            cursor = self.conn.cursor()
+            cursor.execute(strSQL)
+            row = cursor.fetchone()
+            ClientData = []
+            for row in cursor:
+                r = {"Type": row[0], "Title": row[1], "Url": row[2], "source": row[3]}
+                ClientData.append(r)
+            self.conn.close()
+            return ClientData
+        except Exception as e:
+                    print e.message
+                    raise
 
 #產品授權認證機制
 class ProductLicense():
@@ -487,7 +522,6 @@ class CalcuFinance():
             print e.message
             raise
 
-
 #目標客群
 class Persona():
     conn = None
@@ -665,7 +699,7 @@ class RegionSelect():
 
 
 if __name__ == '__main__':
-    Task=[False,False,False,True,False,False]
+    Task=[False,False,False,False,False,False,True]
 
     if Task[0]:
         PF = ProductForecast()
@@ -698,3 +732,7 @@ if __name__ == '__main__':
     if Task[5]:
         RS = RegionSelect()
         print RS.startCalcuate('餐飲業','新加坡','新加坡',1,1,1,1,1,1,33,33,34)
+
+    if Task[6]:
+        FN = findMSNews()
+        FN.getNews()

@@ -873,7 +873,7 @@ class DecisionCompet():
 
 
 if __name__=="__main__":
-    work=[False,False,True]
+    work=[True,False,False]
 
     if work[0] == True :
         GD = DecisionMain()
