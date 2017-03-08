@@ -544,24 +544,60 @@ class Persona():
         result=self.getData(strSQL)
         return self.calcuResult(X3,X4,X5,X6,X7,X8,X9,result)
 
+    # 取得 persona 消費矩陣
+    def getMatrix(self,data):
+        try:
+            strData = ""
+            for i in data:
+                strData += "'" + i + "',"
+            strSQL = "Select persona,Matrix1,Matrix2,Matrix3 From tb_persona_BD where persona in(" + strData[:len(strData)-1] + ")"
+            result = self.getData(strSQL)
+            strResult = []
+            for row in result:
+                if row[1] == None:
+                    row0 = ''
+                else:
+                    row0 = row[1]
+
+                if row[2] == None:
+                    row1 = ''
+                else:
+                    row1 = row[2]
+
+                if row[3] == None:
+                    row2 = ''
+                else:
+                    row2 = row[3]
+                strResult.append({"Persona":row[0],"Martix1": row0, "Martix2": row1, "Martix3": row2})
+            return strResult
+        except Exception as e:
+            print e.message
+            raise
+
     #計算結果
     def calcuResult(self,X3,X4,X5,X6,X7,X8,X9,result):
         FinalResult = []
+        strMatrix = []
         for row in result:
             Score = (abs(float(row[5])-X3)**2 + abs(float(row[6])-X4)**2 + abs(float(row[7])-X5)**2\
                     + abs(float(row[8])-X6)**2 + abs(float(row[9])-X7)**2 + abs(float(row[10])-X8)**2\
                     + (abs(float(row[11])-X9)**2))**(0.5)
             FinalResult.append((row[1], Score))
+
         #取最短距離
         MinResult = min(FinalResult, key=lambda tup: tup[1])
         #結果排序
         #FinalResult.sort(key=lambda tup: tup[1], reverse=False)
-        result = []
+        personResult = []
         for row in FinalResult:
             if row[1] == MinResult[1]:
                 r = {"PersonaCode": row[0], "Score": row[1]}
-                result.append(r)
-        return result
+                personResult.append(r)
+                if str(row[0])[0].upper() not in(strMatrix):
+                    strMatrix.append(str(row[0])[0].upper())
+        # result.append({"Persona":personResult})
+        # result.append({"Martix":self.getMartix(strMartix)})
+        return {"Persona":personResult,"Matrix":self.getMatrix(strMatrix)}
 
     # 取得 db 連線
     def getConnection(self):
@@ -699,7 +735,7 @@ class RegionSelect():
 
 
 if __name__ == '__main__':
-    Task=[False,False,False,False,False,False,True]
+    Task=[False,False,False,False,True,False,False]
 
     if Task[0]:
         PF = ProductForecast()
