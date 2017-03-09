@@ -532,14 +532,16 @@ class Persona():
     def getPersona(self,Sex,Age,X3,X4,X5,X6,X7,X8,X9):
         strSQL="SELECT * FROM tb_persona Where "
         strSex=Sex.split(',')
+        strSQL += " ("
         for i in range(len(strSex)):
             strSQL += " Sex=" + strSex[i] + " or"
-        strSQL = strSQL[0:len(strSQL)-2] + " AND"
+        strSQL = strSQL[0:len(strSQL)-2] + ") AND"
 
         strAge=Age.split(',')
+        strSQL += " ("
         for i in range(len(strAge)):
             strSQL += " Age=" + strAge[i] + " or"
-        strSQL = strSQL[0:len(strSQL)-2]
+        strSQL = strSQL[0:len(strSQL)-2] + ")"
 
         result=self.getData(strSQL)
         return self.calcuResult(X3,X4,X5,X6,X7,X8,X9,result)
@@ -763,7 +765,7 @@ if __name__ == '__main__':
 
     if Task[4]:
         PS = Persona()
-        print PS.getPersona('1','1',3,2,2,3,2,3,3)
+        print PS.getPersona('1','1,2',3,2,2,3,2,3,3)
 
     if Task[5]:
         RS = RegionSelect()
