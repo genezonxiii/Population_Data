@@ -277,7 +277,7 @@ class findMSNews():
             row = cursor.fetchone()
             ClientData = []
             for row in cursor:
-                r = {"Type": row[0], "Title": row[1], "Url": row[2], "source": row[3]}
+                r = {"Type": row[0], "Title": row[1], "source": row[2], "Url": row[3]}
                 ClientData.append(r)
             self.conn.close()
             return ClientData
