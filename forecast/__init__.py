@@ -248,7 +248,7 @@ class findMSNews():
 
     def getDate(self):
         try:
-            strSQL = "SELECT TOP 1 EpaperDate FROM EpaperHistory order by EpaperDate Desc"
+            strSQL = "SELECT TOP 1 EpaperDate FROM EpaperHistory where EpaperType ='1' order by EpaperDate Desc"
             self.conn = self.getConnection()
             cursor = self.conn.cursor()
             print strSQL
