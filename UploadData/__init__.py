@@ -1,34 +1,34 @@
 # -*-  coding: utf-8  -*-
 __author__ = '10409003'
 import os
-from ToMssql.City import City
-from ToMssql.CityCivilCar import CityCivilCar
-from ToMssql.CityConsumptionExpenditure import CityConsumptionExpenditure
-from ToMssql.CityEstateAvgSale import CityEstateAvgSale
-from ToMssql.CityEstateCompletion import CityEstateCompletion
-from ToMssql.CityEstateSaleAmount import CityEstateSaleAmount
-from ToMssql.CityEstateSaleArea import CityEstateSaleArea
-from ToMssql.CityGender import CityGender
-from ToMssql.CityGoodsTraffic import CityGoodsTraffic
-from ToMssql.CityIncome import CityIncome
-from ToMssql.CityPassengerTraffic import CityPassengerTraffic
-from ToMssql.CityPractitioners import CityPractitioners
-from ToMssql.CityRetailExponent import CityRetailExponent
-from ToMssql.CitySocialConsume import CitySocialConsume
-from ToMssql.CityStaff import CityStaff
-from ToMssql.CityTertiaryIncrease import CityTertiaryIncrease
-from ToMssql.CityTertiaryIndustry import CityTertiaryIndustry
-from ToMssql.CityWholesaleRetail import CityWholesaleRetail
-from ToMssql.consumer_intelligence import consumerintelligence
-from ToMssql.Country import Country
-from ToMssql.CountryAge import CountryAge
-from ToMssql.CountryLaborForce import CountryLaborForce
-from ToMssql.Gender import Gender
-from ToMssql.MarketSize import MarketSize
-from ToMssql.Variables import Variables
+from ToMysql.City import CityData
+from ToMysql.CityCivilCar import CityCivilCarData
+from ToMysql.CityConsumptionExpenditure import CityConsumptionExpenditureData
+from ToMysql.CityEstateAvgSale import CityEstateAvgSaleData
+from ToMysql.CityEstateCompletion import CityEstateCompletionData
+from ToMysql.CityEstateSaleAmount import CityEstateSaleAmountData
+from ToMysql.CityEstateSaleArea import CityEstateSaleAreaData
+from ToMysql.CityGender import CityGenderData
+from ToMysql.CityGoodsTraffic import CityGoodsTrafficData
+from ToMysql.CityIncome import CityIncomeData
+from ToMysql.CityPassengerTraffic import CityPassengerTrafficData
+from ToMysql.CityPractitioners import CityPractitionersData
+from ToMysql.CityRetailExponent import CityRetailExponentData
+from ToMysql.CitySocialConsume import CitySocialConsumeData
+from ToMysql.CityStaff import CityStaffData
+from ToMysql.CityTertiaryIncrease import CityTertiaryIncreaseData
+from ToMysql.CityTertiaryIndustry import CityTertiaryIndustryData
+from ToMysql.CityWholesaleRetail import CityWholesaleRetailData
+from ToMysql.consumer_intelligence import Consumer_IntelligenceData
+from ToMysql.Country import CountryData
+from ToMysql.CountryAge import CountryAgeData
+from ToMysql.CountryLaborForce import CountryLaborForceData
+from ToMysql.Gender import GenderData
+from ToMysql.MarketSize import MarketsizeData
+from ToMysql.Variables import VariablesData
+import  logging
 
-
-
+logger = logging.getLogger(__name__)
 
 class SBI_Data():
     Data=None
@@ -36,83 +36,86 @@ class SBI_Data():
     def __init__(self):
         pass
     def SBI_Data(self,DataPath):
-        Supplier = str(str(str(DataPath).split('/')[4]).split('.')[0]).split('_')[0]
-        print Supplier
+        filename_with_ext = str(DataPath).split('/')[4]
+        filename = str(filename_with_ext).split('.')[0]
+        Industry = str(filename).split('_')[0]
+        #Supplier = str(str(str(DataPath).split('/')[4]).split('.')[0]).split('_')[0]
+        print Industry
 
-        if Supplier == 'City':
-            FinalData=City()
+        if Industry == 'City':
+            FinalData=CityData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityCivilCar':
-            FinalData=CityCivilCar()
+        elif Industry == 'CityCivilCar':
+            FinalData=CityCivilCarData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier =='CityConsumptionExpenditure':
-            FinalData = CityConsumptionExpenditure()
+        elif Industry =='CityConsumptionExpenditure':
+            FinalData = CityConsumptionExpenditureData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityEstateAvgSale':
-            FinalData = CityEstateAvgSale()
+        elif Industry == 'CityEstateAvgSale':
+            FinalData = CityEstateAvgSaleData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityEstateCompletion':
-            FinalData = CityEstateCompletion()
+        elif Industry == 'CityEstateCompletion':
+            FinalData = CityEstateCompletionData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityEstateSaleAmount':
-            FinalData = CityEstateSaleAmount()
+        elif Industry == 'CityEstateSaleAmount':
+            FinalData = CityEstateSaleAmountData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityEstateSaleArea':
-            FinalData = CityEstateSaleArea()
+        elif Industry == 'CityEstateSaleArea':
+            FinalData = CityEstateSaleAreaData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityGender':
-            FinalData = CityGender()
+        elif Industry == 'CityGender':
+            FinalData = CityGenderData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityGoodsTraffic':
-            FinalData = CityGoodsTraffic()
+        elif Industry == 'CityGoodsTraffic':
+            FinalData = CityGoodsTrafficData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityIncome':
-            FinalData = CityIncome()
+        elif Industry == 'CityIncome':
+            FinalData = CityIncomeData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityPassengerTraffic':
-            FinalData = CityPassengerTraffic()
+        elif Industry == 'CityPassengerTraffic':
+            FinalData = CityPassengerTrafficData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityPractitioners':
-            FinalData = CityPractitioners()
+        elif Industry == 'CityPractitioners':
+            FinalData = CityPractitionersData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityRetailExponent':
-            FinalData = CityRetailExponent()
+        elif Industry == 'CityRetailExponent':
+            FinalData = CityRetailExponentData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CitySocialConsume':
-            FinalData = CitySocialConsume()
+        elif Industry == 'CitySocialConsume':
+            FinalData = CitySocialConsumeData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityStaff':
-            FinalData = CityStaff()
+        elif Industry == 'CityStaff':
+            FinalData = CityStaffData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityTertiaryIncrease':
-            FinalData = CityTertiaryIncrease()
+        elif Industry == 'CityTertiaryIncrease':
+            FinalData = CityTertiaryIncreaseData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityTertiaryIndustry':
-            FinalData = CityTertiaryIndustry()
+        elif Industry == 'CityTertiaryIndustry':
+            FinalData = CityTertiaryIndustryData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CityWholesaleRetail':
-            FinalData = CityWholesaleRetail()
+        elif Industry == 'CityWholesaleRetail':
+            FinalData = CityWholesaleRetailData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'consumerintelligence':
-            FinalData = consumerintelligence()
+        elif Industry == 'consumerintelligence':
+            FinalData = Consumer_IntelligenceData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'Country':
-            FinalData = Country()
+        elif Industry == 'Country':
+            FinalData = CountryData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CountryAge':
-            FinalData = CountryAge()
+        elif Industry == 'CountryAge':
+            FinalData = CountryAgeData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'CountryLaborForce':
-            FinalData = CountryLaborForce()
+        elif Industry == 'CountryLaborForce':
+            FinalData = CountryLaborForceData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'Gender':
-            FinalData = Gender()
+        elif Industry == 'Gender':
+            FinalData = GenderData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'MarketSize':
-            FinalData = MarketSize()
+        elif Industry == 'MarketSize':
+            FinalData = MarketsizeData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Supplier == 'Variables':
-            FinalData = Variables()
+        elif Industry == 'Variables':
+            FinalData = VariablesData()
             return FinalData.GetData(os.path.join(DataPath))
 
 

@@ -10,11 +10,21 @@ from CashFlow.CashFlowSim import *
 from UploadData import SBI_Data
 from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews
 from GroupDecision import DecisionMain,DecisionChannel,DecisionCompet
+import logging, time
 
-urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)",\
-        "Forecast" ,"/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult",\
-        "/persona/(.*)","GetPersona","/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision")
+urls = ("/OpenData/(.*)",'GetData',
+        "/CashFlow/(.*)",'GetCaseData',
+        "/sbiupload/(.*)", "Uploaddata",
+        "/forecast/(.*)","Forecast" ,
+        "/news/(.*)","GetNews",
+        "/license/(.*)", "License",
+        "/finance/(.*)","GetFinanceResult",\
+        "/persona/(.*)","GetPersona",
+        "/selectregion/(.*)","GetRegion",
+        "/groupdecision/(.*)","GetDecision")
 app = web.application(urls, globals())
+
+logger = logging.getLogger(__name__)
 
 class GetData():
     def GET(self,name):
@@ -84,9 +94,19 @@ class GetCaseData():
 #產業資料庫上傳
 class Uploaddata():
     def GET(self, name):
-        data=name.split('&')
+        data = name.split('&')
         for i in range(len(data)):
-            data[i]=data[i][5:len(data[i])].decode('base64')
+            data[i] = data[i][5:len(data[i])].decode('base64')
+
+        logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                            level=logging.DEBUG,
+                            format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                            datefmt='%Y/%m/%d %I:%M:%S %p')
+        logging.Formatter.converter = time.gmtime
+
+        logger.debug('===Uploaddata===')
+        logger.debug('data[0]:' + data[0])
+
         Upload = SBI_Data()
         return Upload.SBI_Data(data[0])
 
