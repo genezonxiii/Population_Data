@@ -71,7 +71,11 @@ class ProductForecast():
         tmpScore = self.getData(strSQL)
         for row in tmpScore:
             for rows in row:
-                strPoint = str(rows).split(",")
+                strPoint=""
+                if rows <> None :
+                    strPoint = str(rows).split(",")
+                else:
+                    strPoint = "0"
                 for i in range(len(strPoint)):
                     dbScore.append(float(strPoint[i]))
 
