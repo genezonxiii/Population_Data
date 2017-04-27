@@ -546,27 +546,41 @@ class CalcuFinance():
 
 #目標客群
 class Persona():
-    conn = None
+    conn,personResult = None,None
     def __init__(self):
-        pass
+        self.personResult=[]
 
     #取得 persona 查詢結果
     def getPersona(self,Sex,Age,X3,X4,X5,X6,X7,X8,X9):
-        strSQL="SELECT * FROM tb_persona Where "
-        strSex=Sex.split(',')
-        strSQL += " ("
+        # 分群
+        strSex = Sex.split(',')
         for i in range(len(strSex)):
-            strSQL += " Sex=" + strSex[i] + " or"
-        strSQL = strSQL[0:len(strSQL)-2] + ") AND"
-
-        strAge=Age.split(',')
-        strSQL += " ("
-        for i in range(len(strAge)):
-            strSQL += " Age=" + strAge[i] + " or"
-        strSQL = strSQL[0:len(strSQL)-2] + ")"
-
-        result=self.getData(strSQL)
-        return self.calcuResult(X3,X4,X5,X6,X7,X8,X9,result)
+            strSQL = "SELECT * FROM tb_persona Where Sex=" + strSex[i]
+            strAge = Age.split(',')
+            for j in range(len(strAge)):
+                result = self.getData(strSQL + " And Age=" + strAge[j])
+                self.calcuResult(X3, X4, X5, X6, X7, X8, X9, result)
+        strMatrix = []
+        for row in self.personResult:
+            if str(row["PersonaCode"][0]).upper() not in (strMatrix):
+                strMatrix.append(str(row["PersonaCode"][0].upper()))
+        return {"Persona": self.personResult, "Matrix": self.getMatrix(strMatrix)}
+        # 未分群
+        # strSQL="SELECT * FROM tb_persona Where "
+        # strSex=Sex.split(',')
+        # strSQL += " ("
+        # for i in range(len(strSex)):
+        #     strSQL += " Sex=" + strSex[i] + " or"
+        # strSQL = strSQL[0:len(strSQL)-2] + ") AND"
+        #
+        # strAge=Age.split(',')
+        # strSQL += " ("
+        # for i in range(len(strAge)):
+        #     strSQL += " Age=" + strAge[i] + " or"
+        # strSQL = strSQL[0:len(strSQL)-2] + ")"
+        #
+        # result=self.getData(strSQL)
+        # return self.calcuResult(X3,X4,X5,X6,X7,X8,X9,result)
 
     # 取得 persona 消費矩陣
     def getMatrix(self,data):
@@ -601,7 +615,7 @@ class Persona():
     #計算結果
     def calcuResult(self,X3,X4,X5,X6,X7,X8,X9,result):
         FinalResult = []
-        strMatrix = []
+        # strMatrix = []
         for row in result:
             Score = (abs(float(row[5])-X3)**2 + abs(float(row[6])-X4)**2 + abs(float(row[7])-X5)**2\
                     + abs(float(row[8])-X6)**2 + abs(float(row[9])-X7)**2 + abs(float(row[10])-X8)**2\
@@ -612,16 +626,16 @@ class Persona():
         MinResult = min(FinalResult, key=lambda tup: tup[1])
         #結果排序
         #FinalResult.sort(key=lambda tup: tup[1], reverse=False)
-        personResult = []
+        # personResult = []
         for row in FinalResult:
             if row[1] == MinResult[1]:
                 r = {"PersonaCode": row[0], "Score": row[1]}
-                personResult.append(r)
-                if str(row[0])[0].upper() not in(strMatrix):
-                    strMatrix.append(str(row[0])[0].upper())
+                self.personResult.append(r)
+                # if str(row[0])[0].upper() not in(strMatrix):
+                #     strMatrix.append(str(row[0])[0].upper())
         # result.append({"Persona":personResult})
         # result.append({"Martix":self.getMartix(strMartix)})
-        return {"Persona":personResult,"Matrix":self.getMatrix(strMatrix)}
+        # return {"Persona":personResult,"Matrix":self.getMatrix(strMatrix)}
 
     # 取得 db 連線
     def getConnection(self):
@@ -757,9 +771,83 @@ class RegionSelect():
             result.append(r)
         return result
 
+# 巿場策略定位
+class EntrySrategy():
+    conn ,entrystrategyResult = None ,None
+    def __init__(self):
+        self.entrystrategyResult = []
+
+    # 取得 entrystrategy 查詢結果
+    def getEntrystrategy(self,CountrySelect, Sex, Age, X3, X4, X5, X6, X7, X8, X9):
+        strCountry = ""
+        if CountrySelect == "2":
+            strCountry = " AND (PCode not like 'E%' AND PCode not like 'F%')"
+        elif CountrySelect == "3":
+            strCountry = " AND (PCode not like 'C%' AND PCode not like 'D%')"
+        elif CountrySelect == "4":
+            strCountry = " AND (PCode not like 'D%' AND PCode not like 'F%')"
+
+        strSex = Sex.split(',')
+        for i in range(len(strSex)):
+            strSQL = "SELECT * FROM tb_entrystrategy Where Sex=" + strSex[i]
+            strAge = Age.split(',')
+            for j in range(len(strAge)):
+                result = self.getData(strSQL + " And Age=" + strAge[j] + strCountry)
+                self.calcuResult(X3, X4, X5, X6, X7, X8, X9, result)
+
+        return {"EntrySrategy": self.entrystrategyResult}
+
+    # 計算結果
+    def calcuResult(self, X3, X4, X5, X6, X7, X8, X9, result):
+        FinalResult = []
+        for row in result:
+            Score = (abs(float(row[5]) - X3) ** 2 + abs(float(row[6]) - X4) ** 2 + abs(float(row[7]) - X5) ** 2 \
+                     + abs(float(row[8]) - X6) ** 2 + abs(float(row[9]) - X7) ** 2 + abs(float(row[10]) - X8) ** 2 \
+                     + (abs(float(row[11]) - X9) ** 2)) ** (0.5)
+            FinalResult.append((row[1], Score))
+
+        # 取最短距離
+        MinResult = min(FinalResult, key=lambda tup: tup[1])
+        # 結果排序
+        for row in FinalResult:
+            if row[1] == MinResult[1]:
+                r = {"EntrySrategyCode": row[0], "Score": row[1]}
+                self.entrystrategyResult.append(r)
+
+
+    # 取得 db 連線
+    def getConnection(self):
+        try:
+            if (self.conn == None):
+                config = Config_2()
+                return mysql.connector.connect(user=config.dbUser, password=config.dbPwd,
+                                               host=config.dbServer, database=config.dbName)
+            else:
+                return self.conn
+        except mysql.connector.Error:
+            print "Connection DB Error"
+            raise
+        except Exception as e:
+            print e.message
+            raise
+
+    # 從 db 取得 select 結果
+    def getData(self, strSQL):
+        try:
+            self.conn = self.getConnection()
+            cursor = self.conn.cursor()
+            cursor.execute(strSQL)
+            data_row = []
+            for row in cursor.fetchall():
+                data_row.append(row)
+            cursor.close()
+            return data_row
+        except Exception as e:
+            print e.message
+            raise
 
 if __name__ == '__main__':
-    Task=[False,False,False,False,True,False,False]
+    Task=[False,False,False,False,False,False,False,True]
 
     if Task[0]:
         PF = ProductForecast()
@@ -787,7 +875,7 @@ if __name__ == '__main__':
 
     if Task[4]:
         PS = Persona()
-        print PS.getPersona('1','1,2,3',3,2,2,3,2,3,3)
+        print PS.getPersona('1','1,2',3,2,2,3,2,3,3)
 
     if Task[5]:
         RS = RegionSelect()
@@ -796,3 +884,7 @@ if __name__ == '__main__':
     if Task[6]:
         FN = findMSNews()
         FN.getNews()
+
+    if Task[7]:
+        ES = EntrySrategy()
+        print ES.getEntrystrategy('2','1','1,2,3',3,2,2,3,2,3,3)

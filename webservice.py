@@ -8,20 +8,13 @@ from population_data.age_education import *
 from population_data.population_indicator import *
 from CashFlow.CashFlowSim import *
 from UploadData import SBI_Data
-from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews
+from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews,EntrySrategy
 from GroupDecision import DecisionMain,DecisionChannel,DecisionCompet
 import logging, time
 
-urls = ("/OpenData/(.*)",'GetData',
-        "/CashFlow/(.*)",'GetCaseData',
-        "/sbiupload/(.*)", "Uploaddata",
-        "/forecast/(.*)","Forecast" ,
-        "/news/(.*)","GetNews",
-        "/license/(.*)", "License",
-        "/finance/(.*)","GetFinanceResult",\
-        "/persona/(.*)","GetPersona",
-        "/selectregion/(.*)","GetRegion",
-        "/groupdecision/(.*)","GetDecision")
+urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,\
+        "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",\
+        "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntrySrategy")
 app = web.application(urls, globals())
 
 logger = logging.getLogger(__name__)
@@ -201,7 +194,7 @@ class GetPersona():
 
         resule = json.dumps(result)
         return resule
-
+        # http://localhost:8080/persona/sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
 #決策空間
 class GetDecision():
     def GET(self, name):
@@ -243,6 +236,22 @@ class GetRegion():
         return json.dumps(result)
 
         # http://localhost:8080/selectregion/type=&area=&city=&ch1a=&ch1b=&ch2a=&ch2b=&ch3a=&ch3b=&per1=&per2=&per3=
+
+# 巿場策略定位
+class GetEntrySrategy():
+    def GET(self, name):
+        data = name.split('&')
+        for i in range(len(data)):
+            data[i] = data[i][4:len(data[i])].decode('base64')
+            #print data[i]
+        result = []
+        es = EntrySrategy()
+        result =es.getEntrystrategy(data[0],data[1],data[2],int(data[3]),int(data[4]),int(data[5]),int(data[6]),int(data[7]),int(data[8]),int(data[9]))
+        web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
+
+        resule = json.dumps(result)
+        return resule
+        # http://localhost:8080/entrysrategy/_cy=Mg==&sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
 
 if __name__ == "__main__":
     app.run()
