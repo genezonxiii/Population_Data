@@ -4,18 +4,35 @@ import json,urllib
 import mysql.connector
 import numpy
 from setting import Config_2
-class FiveYear_M:
+import logging, time
+
+logger = logging.getLogger(__name__)
+
+class FiveYear_M():
     def ParserJson(self,url):
-        result = json.load(urllib.urlopen(url))
-        data =[]
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                                level=logging.DEBUG,
+                                format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                                datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+
+            result = json.load(urllib.urlopen(url))
+            data =[]
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+        except Exception as e:
+            print e.message
+            logger.debug(e.message)
+        finally:
+            return 'finish'
+
     def writeDB(self, data):
         try:
             config=Config_2()
@@ -98,18 +115,32 @@ class FiveYear_M:
                            int(result[20]),strInfo))
         print resultdata
 
-class FiveYear_F:
+class FiveYear_F():
     def ParserJson(self, url):
-        result = json.load(urllib.urlopen(url))
-        data = []
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                                level=logging.DEBUG,
+                                format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                                datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+
+            result = json.load(urllib.urlopen(url))
+            data = []
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+
+        except Exception as e:
+            print e.message
+            logger.debug(e.message)
+
+        finally:
+            return 'finish'
 
     def writeDB(self, data):
         try:
@@ -159,11 +190,11 @@ class FiveYear_F:
         A100UP_F_5_CNT = int(row['A100UP_F_5_CNT'])
 
         data.append((county,A0A4_F_CNT,A5A9_F_CNT,
-                     A10A14_F_CNT, A15A19_F_CNT,A20A24_F_CNT, A25A29_F_CNT, A30A34_F_CNT,
-                     A35A39_F_CNT, A40A44_F_CNT,A45A49_F_CNT, A50A54_F_CNT,
-                     A55A59_F_CNT,A60A64_F_CNT, A65A69_F_CNT,A70A74_F_CNT,
+                     A10A14_F_CNT, A15A19_F_CNT, A20A24_F_CNT, A25A29_F_CNT, A30A34_F_CNT,
+                     A35A39_F_CNT, A40A44_F_CNT, A45A49_F_CNT, A50A54_F_CNT,
+                     A55A59_F_CNT, A60A64_F_CNT, A65A69_F_CNT, A70A74_F_CNT,
                      A75A79_F_CNT, A80A84_F_CNT,A85A89_F_CNT,
-                     A90A94_F_CNT, A95A99_F_CNT,A100UP_F_5_CNT,INFO_TIME))
+                     A90A94_F_CNT, A95A99_F_CNT, A100UP_F_5_CNT, INFO_TIME))
 
 
     def sumData(self, data, resultdata):
@@ -195,18 +226,31 @@ class FiveYear_F:
              int(result[20]), strInfo))
         print resultdata
 
-class FiveYear_All:
+class FiveYear_All():
     def ParserJson(self, url):
-        result = json.load(urllib.urlopen(url))
-        data = []
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                                level=logging.DEBUG,
+                                format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                                datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+            result = json.load(urllib.urlopen(url))
+            data = []
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+        except Exception as e:
+            print e.message
+            logging.error(e.message)
+
+        finally:
+            return 'finish'
+
 
     def writeDB(self, data):
         try:
@@ -253,7 +297,7 @@ class FiveYear_All:
         A75A79_CNT = int(row['A75A79_CNT'])
         A80A84_CNT = int(row['A80A84_CNT'])
         A85A89_CNT = int(row['A85A89_CNT'])
-        A90A94_CNT = int(row['A85A89_F_CNT'])
+        A90A94_CNT = int(row['A90A94_CNT'])
         A95A99_CNT = int(row['A95A99_CNT'])
         A100UP_5_CNT = int(row['A100UP_5_CNT'])
 
@@ -292,3 +336,7 @@ class FiveYear_All:
              int(result[17]), int(result[18]), int(result[19]),
              int(result[20]),strInfo))
         print resultdata
+
+if __name__=='__main__':
+    mssql = FiveYear_F()
+    print mssql.ParserJson(url ='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854D8F52522E38D8C7051A1FBEE829C41DBAA621E921CCAA2C59B8468D8E9726F6F71F479EBD1A8F092D8BBECC4B34231B0' )

@@ -4,18 +4,34 @@ import json,urllib
 import mysql.connector
 import numpy
 from setting import Config_2
-class Age_Education_M:
+import logging, time
+
+logger = logging.getLogger(__name__)
+
+class Age_Education_M():
     def ParserJson(self,url):
-        result = json.load(urllib.urlopen(url))
-        data =[]
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                                level=logging.DEBUG,
+                                format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                                datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+            result = json.load(urllib.urlopen(url))
+            data =[]
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+        except Exception as e:
+            print e.message
+            logger.debug(e.message)
+        finally:
+            return 'finish'
+
     def writeDB(self, data):
         try:
             config=Config_2()
@@ -149,26 +165,26 @@ class Age_Education_M:
         M_A65UP_E03_CNT = row['M_A65UP_E03_CNT']
         M_A65UP_E04_CNT = row['M_A65UP_E04_CNT']
 
-        data.append((county,M_A15A19_E1314_CNT,M_A15A19_E1112_CNT,M_A15A19_E2122_CNT,M_A15A19_E3_4_5_CNT,
-                M_A15A19_E6_7_CNT,M_A15A19_E8_9_CNT,M_A15A19_E1_2_CNT,M_A15A19_E03_CNT,M_A15A19_E04_CNT,
-                M_A20A24_E1314_CNT,M_A20A24_E1112_CNT,M_A20A24_E2122_CNT,M_A20A24_E3_4_5_CNT,
-                M_A20A24_E6_7_CNT,M_A20A24_E8_9_CNT,M_A20A24_E1_2_CNT,M_A20A24_E03_CNT,M_A20A24_E04_CNT,
-                M_A25A29_E1314_CNT,M_A25A29_E1112_CNT,M_A25A29_E2122_CNT,M_A25A29_E3_4_5_CNT,
-                M_A25A29_E6_7_CNT,M_A25A29_E8_9_CNT,M_A25A29_E1_2_CNT,M_A25A29_E03_CNT,M_A25A29_E04_CNT,
-                M_A30A34_E1314_CNT,M_A30A34_E1112_CNT,M_A30A34_E2122_CNT,M_A30A34_E3_4_5_CNT,M_A30A34_E6_7_CNT,
-                M_A30A34_E8_9_CNT,M_A30A34_E1_2_CNT,M_A30A34_E03_CNT,M_A30A34_E04_CNT,M_A35A39_E1314_CNT,
-                M_A35A39_E1112_CNT,M_A35A39_E2122_CNT,M_A35A39_E3_4_5_CNT,M_A35A39_E6_7_CNT,M_A35A39_E8_9_CNT,
-                M_A35A39_E1_2_CNT,M_A35A39_E03_CNT,M_A35A39_E04_CNT,M_A40A44_E1314_CNT,M_A40A44_E1112_CNT,
-                M_A40A44_E2122_CNT,M_A40A44_E3_4_5_CNT,M_A40A44_E6_7_CNT,M_A40A44_E8_9_CNT,M_A40A44_E1_2_CNT,
-                M_A40A44_E03_CNT,M_A40A44_E04_CNT,M_A45A49_E1314_CNT,M_A45A49_E1112_CNT,M_A45A49_E2122_CNT,
-                M_A45A49_E3_4_5_CNT,M_A45A49_E6_7_CNT,M_A45A49_E8_9_CNT,M_A45A49_E1_2_CNT,M_A45A49_E03_CNT,M_A45A49_E04_CNT,
-                M_A50A54_E1314_CNT,M_A50A54_E1112_CNT,M_A50A54_E2122_CNT,M_A50A54_E3_4_5_CNT,M_A50A54_E6_7_CNT,
-                M_A50A54_E8_9_CNT,M_A50A54_E1_2_CNT,M_A50A54_E03_CNT,M_A50A54_E04_CNT,M_A55A59_E1314_CNT,
-                M_A55A59_E1112_CNT,M_A55A59_E2122_CNT,M_A55A59_E3_4_5_CNT,M_A55A59_E6_7_CNT,M_A55A59_E8_9_CNT,M_A55A59_E1_2_CNT,
-                M_A55A59_E03_CNT,M_A55A59_E04_CNT,M_A60A64_E1314_CNT,M_A60A64_E1112_CNT,M_A60A64_E2122_CNT,
-                M_A60A64_E3_4_5_CNT,M_A60A64_E6_7_CNT,M_A60A64_E8_9_CNT,M_A60A64_E1_2_CNT,M_A60A64_E03_CNT,M_A60A64_E04_CNT,
-                M_A65UP_E1314_CNT,M_A65UP_E1112_CNT,M_A65UP_E2122_CNT,M_A65UP_E3_4_5_CNT,M_A65UP_E6_7_CNT,
-                M_A65UP_E8_9_CNT,M_A65UP_E1_2_CNT,M_A65UP_E03_CNT,M_A65UP_E04_CNT,INFO_TIME))
+        data.append((county, M_A15A19_E1314_CNT, M_A15A19_E1112_CNT, M_A15A19_E2122_CNT, M_A15A19_E3_4_5_CNT,
+                    M_A15A19_E6_7_CNT, M_A15A19_E8_9_CNT, M_A15A19_E1_2_CNT, M_A15A19_E03_CNT, M_A15A19_E04_CNT,
+                    M_A20A24_E1314_CNT, M_A20A24_E1112_CNT, M_A20A24_E2122_CNT, M_A20A24_E3_4_5_CNT,
+                    M_A20A24_E6_7_CNT, M_A20A24_E8_9_CNT, M_A20A24_E1_2_CNT, M_A20A24_E03_CNT, M_A20A24_E04_CNT,
+                    M_A25A29_E1314_CNT, M_A25A29_E1112_CNT, M_A25A29_E2122_CNT, M_A25A29_E3_4_5_CNT,
+                    M_A25A29_E6_7_CNT, M_A25A29_E8_9_CNT, M_A25A29_E1_2_CNT,M_A25A29_E03_CNT, M_A25A29_E04_CNT,
+                    M_A30A34_E1314_CNT, M_A30A34_E1112_CNT, M_A30A34_E2122_CNT, M_A30A34_E3_4_5_CNT, M_A30A34_E6_7_CNT,
+                    M_A30A34_E8_9_CNT, M_A30A34_E1_2_CNT, M_A30A34_E03_CNT, M_A30A34_E04_CNT, M_A35A39_E1314_CNT,
+                    M_A35A39_E1112_CNT, M_A35A39_E2122_CNT, M_A35A39_E3_4_5_CNT, M_A35A39_E6_7_CNT, M_A35A39_E8_9_CNT,
+                    M_A35A39_E1_2_CNT, M_A35A39_E03_CNT, M_A35A39_E04_CNT, M_A40A44_E1314_CNT, M_A40A44_E1112_CNT,
+                    M_A40A44_E2122_CNT, M_A40A44_E3_4_5_CNT, M_A40A44_E6_7_CNT, M_A40A44_E8_9_CNT, M_A40A44_E1_2_CNT,
+                    M_A40A44_E03_CNT, M_A40A44_E04_CNT, M_A45A49_E1314_CNT, M_A45A49_E1112_CNT, M_A45A49_E2122_CNT,
+                    M_A45A49_E3_4_5_CNT, M_A45A49_E6_7_CNT, M_A45A49_E8_9_CNT, M_A45A49_E1_2_CNT, M_A45A49_E03_CNT, M_A45A49_E04_CNT,
+                    M_A50A54_E1314_CNT, M_A50A54_E1112_CNT, M_A50A54_E2122_CNT, M_A50A54_E3_4_5_CNT, M_A50A54_E6_7_CNT,
+                    M_A50A54_E8_9_CNT, M_A50A54_E1_2_CNT, M_A50A54_E03_CNT, M_A50A54_E04_CNT, M_A55A59_E1314_CNT,
+                    M_A55A59_E1112_CNT, M_A55A59_E2122_CNT, M_A55A59_E3_4_5_CNT,M_A55A59_E6_7_CNT, M_A55A59_E8_9_CNT, M_A55A59_E1_2_CNT,
+                    M_A55A59_E03_CNT, M_A55A59_E04_CNT, M_A60A64_E1314_CNT, M_A60A64_E1112_CNT, M_A60A64_E2122_CNT,
+                    M_A60A64_E3_4_5_CNT, M_A60A64_E6_7_CNT, M_A60A64_E8_9_CNT,M_A60A64_E1_2_CNT, M_A60A64_E03_CNT, M_A60A64_E04_CNT,
+                    M_A65UP_E1314_CNT, M_A65UP_E1112_CNT, M_A65UP_E2122_CNT, M_A65UP_E3_4_5_CNT, M_A65UP_E6_7_CNT,
+                    M_A65UP_E8_9_CNT, M_A65UP_E1_2_CNT, M_A65UP_E03_CNT, M_A65UP_E04_CNT, INFO_TIME))
 
     def sumData(self, data, resultdata):
         strCountID = ''
@@ -219,18 +235,31 @@ class Age_Education_M:
                            int(result[97]), int(result[98]),strInfo))
         print resultdata
 
-class Age_Education_F:
+class Age_Education_F():
     def ParserJson(self,url):
-        result = json.load(urllib.urlopen(url))
-        data =[]
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                               level=logging.DEBUG,
+                               format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                               datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+
+            result = json.load(urllib.urlopen(url))
+            data =[]
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+        except Exception as e:
+            print e.message
+            logger.debug(e.message)
+        finally:
+            return 'finish'
+
     def writeDB(self, data):
         try:
             config=Config_2()
@@ -365,25 +394,25 @@ class Age_Education_F:
         F_A65UP_E04_CNT = row['F_A65UP_E04_CNT']
 
         data.append((county,F_A15A19_E1314_CNT,
-        F_A15A19_E1112_CNT,F_A15A19_E2122_CNT,F_A15A19_E3_4_5_CNT,F_A15A19_E6_7_CNT,F_A15A19_E8_9_CNT,
-        F_A15A19_E1_2_CNT,F_A15A19_E03_CNT,F_A15A19_E04_CNT,F_A20A24_E1314_CNT,F_A20A24_E1112_CNT,
-        F_A20A24_E2122_CNT,F_A20A24_E3_4_5_CNT,F_A20A24_E6_7_CNT,F_A20A24_E8_9_CNT,F_A20A24_E1_2_CNT,F_A20A24_E03_CNT,F_A20A24_E04_CNT,
-        F_A25A29_E1314_CNT,F_A25A29_E1112_CNT,
-        F_A25A29_E2122_CNT,F_A25A29_E3_4_5_CNT,F_A25A29_E6_7_CNT,F_A25A29_E8_9_CNT,F_A25A29_E1_2_CNT,F_A25A29_E03_CNT,
-        F_A25A29_E04_CNT,F_A30A34_E1314_CNT,F_A30A34_E1112_CNT,F_A30A34_E2122_CNT,F_A30A34_E3_4_5_CNT,F_A30A34_E6_7_CNT,F_A30A34_E8_9_CNT,
-        F_A30A34_E1_2_CNT,F_A30A34_E03_CNT,F_A30A34_E04_CNT,F_A35A39_E1314_CNT,
-        F_A35A39_E1112_CNT,F_A35A39_E2122_CNT,F_A35A39_E3_4_5_CNT,F_A35A39_E6_7_CNT,F_A35A39_E8_9_CNT,
-        F_A35A39_E1_2_CNT,F_A35A39_E03_CNT,F_A35A39_E04_CNT,F_A40A44_E1314_CNT,F_A40A44_E1112_CNT,
-        F_A40A44_E2122_CNT,F_A40A44_E3_4_5_CNT,F_A40A44_E6_7_CNT,F_A40A44_E8_9_CNT,F_A40A44_E1_2_CNT,F_A40A44_E03_CNT,
-        F_A40A44_E04_CNT,F_A45A49_E1314_CNT,F_A45A49_E1112_CNT,F_A45A49_E2122_CNT,F_A45A49_E3_4_5_CNT,
-        F_A45A49_E6_7_CNT,F_A45A49_E8_9_CNT,F_A45A49_E1_2_CNT,F_A45A49_E03_CNT,F_A45A49_E04_CNT,
-        F_A50A54_E1314_CNT,F_A50A54_E1112_CNT,F_A50A54_E2122_CNT,F_A50A54_E3_4_5_CNT,F_A50A54_E6_7_CNT,F_A50A54_E8_9_CNT,F_A50A54_E1_2_CNT,
-        F_A50A54_E03_CNT,F_A50A54_E04_CNT,F_A55A59_E1314_CNT,F_A55A59_E1112_CNT,F_A55A59_E2122_CNT,
-        F_A55A59_E3_4_5_CNT,F_A55A59_E6_7_CNT,F_A55A59_E8_9_CNT,F_A55A59_E1_2_CNT,F_A55A59_E03_CNT,F_A55A59_E04_CNT,
-        F_A60A64_E1314_CNT,F_A60A64_E1112_CNT,F_A60A64_E2122_CNT,F_A60A64_E3_4_5_CNT,F_A60A64_E6_7_CNT,
-        F_A60A64_E8_9_CNT,F_A60A64_E1_2_CNT,F_A60A64_E03_CNT,F_A60A64_E04_CNT,F_A65UP_E1314_CNT,
-        F_A65UP_E1112_CNT,F_A65UP_E2122_CNT,F_A65UP_E3_4_5_CNT,F_A65UP_E6_7_CNT,F_A65UP_E8_9_CNT,F_A65UP_E1_2_CNT,
-        F_A65UP_E03_CNT,F_A65UP_E04_CNT,INFO_TIME))
+        F_A15A19_E1112_CNT, F_A15A19_E2122_CNT, F_A15A19_E3_4_5_CNT,F_A15A19_E6_7_CNT, F_A15A19_E8_9_CNT,
+        F_A15A19_E1_2_CNT, F_A15A19_E03_CNT, F_A15A19_E04_CNT,F_A20A24_E1314_CNT, F_A20A24_E1112_CNT,
+        F_A20A24_E2122_CNT, F_A20A24_E3_4_5_CNT, F_A20A24_E6_7_CNT, F_A20A24_E8_9_CNT, F_A20A24_E1_2_CNT, F_A20A24_E03_CNT, F_A20A24_E04_CNT,
+        F_A25A29_E1314_CNT, F_A25A29_E1112_CNT,
+        F_A25A29_E2122_CNT, F_A25A29_E3_4_5_CNT, F_A25A29_E6_7_CNT, F_A25A29_E8_9_CNT, F_A25A29_E1_2_CNT, F_A25A29_E03_CNT,
+        F_A25A29_E04_CNT, F_A30A34_E1314_CNT, F_A30A34_E1112_CNT, F_A30A34_E2122_CNT, F_A30A34_E3_4_5_CNT, F_A30A34_E6_7_CNT, F_A30A34_E8_9_CNT,
+        F_A30A34_E1_2_CNT, F_A30A34_E03_CNT, F_A30A34_E04_CNT, F_A35A39_E1314_CNT,
+        F_A35A39_E1112_CNT, F_A35A39_E2122_CNT, F_A35A39_E3_4_5_CNT, F_A35A39_E6_7_CNT, F_A35A39_E8_9_CNT,
+        F_A35A39_E1_2_CNT, F_A35A39_E03_CNT, F_A35A39_E04_CNT, F_A40A44_E1314_CNT, F_A40A44_E1112_CNT,
+        F_A40A44_E2122_CNT, F_A40A44_E3_4_5_CNT, F_A40A44_E6_7_CNT, F_A40A44_E8_9_CNT, F_A40A44_E1_2_CNT, F_A40A44_E03_CNT,
+        F_A40A44_E04_CNT, F_A45A49_E1314_CNT, F_A45A49_E1112_CNT, F_A45A49_E2122_CNT, F_A45A49_E3_4_5_CNT,
+        F_A45A49_E6_7_CNT, F_A45A49_E8_9_CNT, F_A45A49_E1_2_CNT, F_A45A49_E03_CNT, F_A45A49_E04_CNT,
+        F_A50A54_E1314_CNT, F_A50A54_E1112_CNT, F_A50A54_E2122_CNT, F_A50A54_E3_4_5_CNT, F_A50A54_E6_7_CNT, F_A50A54_E8_9_CNT, F_A50A54_E1_2_CNT,
+        F_A50A54_E03_CNT, F_A50A54_E04_CNT, F_A55A59_E1314_CNT, F_A55A59_E1112_CNT, F_A55A59_E2122_CNT,
+        F_A55A59_E3_4_5_CNT, F_A55A59_E6_7_CNT, F_A55A59_E8_9_CNT, F_A55A59_E1_2_CNT, F_A55A59_E03_CNT, F_A55A59_E04_CNT,
+        F_A60A64_E1314_CNT,F_A60A64_E1112_CNT, F_A60A64_E2122_CNT, F_A60A64_E3_4_5_CNT, F_A60A64_E6_7_CNT,
+        F_A60A64_E8_9_CNT, F_A60A64_E1_2_CNT, F_A60A64_E03_CNT, F_A60A64_E04_CNT, F_A65UP_E1314_CNT,
+        F_A65UP_E1112_CNT, F_A65UP_E2122_CNT, F_A65UP_E3_4_5_CNT, F_A65UP_E6_7_CNT, F_A65UP_E8_9_CNT, F_A65UP_E1_2_CNT,
+        F_A65UP_E03_CNT, F_A65UP_E04_CNT, INFO_TIME))
 
     def sumData(self, data, resultdata):
         strCountID = ''
@@ -434,18 +463,30 @@ class Age_Education_F:
                            int(result[97]), int(result[98]),strInfo))
         print resultdata
 
-class Age_Education_All:
+class Age_Education_All():
     def ParserJson(self,url):
-        result = json.load(urllib.urlopen(url))
-        data =[]
-        resultdata = []
-        CountyId = result["Info"][0]
-        for each in result['RowDataList']:
-            self.CombindData(each, data, CountyId['InCountyId'])
-        self.sumData(data, resultdata)
-        self.writeDB(resultdata)
-        # for result in data:
-        #     print result
+        try:
+            logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                                level=logging.DEBUG,
+                                format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                                datefmt='%Y/%m/%d %I:%M:%S %p')
+            logging.Formatter.converter = time.gmtime
+            result = json.load(urllib.urlopen(url))
+            data =[]
+            resultdata = []
+            CountyId = result["Info"][0]
+            for each in result['RowDataList']:
+                self.CombindData(each, data, CountyId['InCountyId'])
+            self.sumData(data, resultdata)
+            self.writeDB(resultdata)
+            # for result in data:
+            #     print result
+        except Exception as e:
+            print e.message
+            logger.debug(e.message)
+        finally:
+            return 'finish'
+
     def writeDB(self, data):
         try:
             config=Config_2()
@@ -648,3 +689,8 @@ class Age_Education_All:
                            int(result[94]), int(result[95]), int(result[96]),
                            int(result[97]), int(result[98]),strInfo))
         print resultdata
+
+
+if __name__ == '__main__':
+    mssql = Age_Education_All()
+    print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetStatSTDataForOpenCode?oCode=6E03CA29B955A854D8F52522E38D8C7051A1FBEE829C41DB24A8D456DDA4E3BA5AF51EE58102DB3A0956DEC9A8D69E14C93C1F4155955501')
