@@ -14,7 +14,7 @@ import logging, time
 
 urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,\
         "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",\
-        "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntrySrategy")
+        "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntryStrategy")
 app = web.application(urls, globals())
 
 logger = logging.getLogger(__name__)
@@ -238,7 +238,7 @@ class GetRegion():
         # http://localhost:8080/selectregion/type=&area=&city=&ch1a=&ch1b=&ch2a=&ch2b=&ch3a=&ch3b=&per1=&per2=&per3=
 
 # 巿場策略定位
-class GetEntrySrategy():
+class GetEntryStrategy():
     def GET(self, name):
         data = name.split('&')
         for i in range(len(data)):
