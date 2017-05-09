@@ -70,7 +70,7 @@ class Population_indicator_a():
         data.append((COUNTY_ID, COUNTY, TOWN_ID, TOWN, V_ID, VILLAGE,M_F_RAT, P_H_CNT,
                      P_DEN,DEPENDENCY_RAT,A0A14_A15A65_RAT,A65UP_A15A64_RAT,A65_A0A14_RAT, INFO_TIME))
 
-class Pupulation_indicator_d():
+class Population_indicator_d():
     def ParserJson(self, url):
         try:
             logging.basicConfig(filename='/data/Population_Data/pyupload.log',
@@ -272,7 +272,7 @@ class Pupulation_indicator_d():
             print e.message
             logger.debug('===combindData==='+e.message)
 
-class Pupulation_indicator_e():
+class Population_indicator_e():
     def ParserJson(self, url):
         try:
             logging.basicConfig(filename='/data/Population_Data/pyupload.log',
@@ -482,9 +482,9 @@ class Population_indicator_c:
 
 
 if __name__ == '__main__':
-    # mssql = Pupulation_indicator_d()
+    # mssql = Population_indicator_d()
     # print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DBC09B9B1454506F40B9422055B5A47ABBD5421BC7960893AF')
     # tmp = Population_indicator_a()
     # print tmp.ParserJson(url = 'http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DB309864665027587E2539094FCB65D41BDDE79C332EB9258D')
-    mssql = Pupulation_indicator_e()
+    mssql = Population_indicator_e()
     print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DBFCC17E8034AB503F212AB7B0B0B2E8CAD5421BC7960893AF')

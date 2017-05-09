@@ -6,6 +6,7 @@ from population_data.age import *
 from population_data.education import *
 from population_data.age_education import *
 from population_data.population_indicator import *
+from population_data.population import *
 from CashFlow.CashFlowSim import *
 from UploadData import SBI_Data
 from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews,EntrySrategy
@@ -56,8 +57,17 @@ class GetData():
             FinalData.ParserJson(data[2])
             FinalData = Age_Education_All()
             FinalData.ParserJson(data[2])
-        elif (data_k=='pop_index') :
+        elif (data_k=='pop_index_a') :
             FinalData = Population_indicator_a()
+            FinalData.ParserJson(data[2])
+        elif (data_k=='pop_index_d') :
+            FinalData = Population_indicator_d()
+            FinalData.ParserJson(data[2])
+        elif (data_k == 'pop_index_e') :
+            FinalData = Population_indicator_e()
+            FinalData.ParserJson(data[2])
+        elif (data_k == 'pop_five'):
+            FinalData = Population_village()
             FinalData.ParserJson(data[2])
         elif (data_k == 'pop_marriage'):
             FinalData = Population_indicator_b()

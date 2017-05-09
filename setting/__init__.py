@@ -24,6 +24,11 @@ class Config_2:
         self.dbPwd = 'admin123'
         self.dbName='cdri'
         self.path='/data/cdriqrcode/'
+        # self.dbServer = 'localhost'
+        # self.dbUser = 'root'
+        # self.dbPwd = 'mysql'
+        # self.dbName = 'cdri'
+        # self.path = '/data/cdriqrcode/'
         
         #Mongodb �s�u
         self.mgHost='192.168.112.164'
