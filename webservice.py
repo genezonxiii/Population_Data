@@ -21,13 +21,22 @@ app = web.application(urls, globals())
 logger = logging.getLogger(__name__)
 
 class GetData():
+    success = False
     def GET(self,name):
+        logging.basicConfig(filename='/data/Population_Data/pyupload.log',
+                            level=logging.DEBUG,
+                            format='%(asctime)s - %(levelname)s - %(filename)s:%(name)s:%(module)s/%(funcName)s/%(lineno)d - %(message)s',
+                            datefmt='%Y/%m/%d %I:%M:%S %p')
+        logging.Formatter.converter = time.gmtime
+
         data=name.split('&')
         for i in range(len(data)):
             data[i]=data[i][5:len(data[i])].decode('base64')
-        self.OutputData(data)
+
+        logger.debug('===GETData===')
+        logger.debug('data[2]:' + data[2])
+        return self.OutputData(data)
         # return data[0],data[1],data[2]
-        return 'success'
 
     def OutputData(self, data):
         data_k=data[0].lower()
@@ -37,6 +46,7 @@ class GetData():
             print 'sex_marriage'
             FinalData = marriage()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k=='sex_age'):
             FinalData = FiveYear_M()
             FinalData.ParserJson(data[2])
@@ -44,6 +54,7 @@ class GetData():
             FinalData.ParserJson(data[2])
             FinalData = FiveYear_All()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k == 'sex_age_edu'):
             FinalData = Education_M()
             FinalData.ParserJson(data[2])
@@ -57,25 +68,32 @@ class GetData():
             FinalData.ParserJson(data[2])
             FinalData = Age_Education_All()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k=='pop_index_a') :
             FinalData = Population_indicator_a()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k=='pop_index_d') :
             FinalData = Population_indicator_d()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k == 'pop_index_e') :
             FinalData = Population_indicator_e()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k == 'pop_five'):
             FinalData = Population_village()
             FinalData.ParserJson(data[2])
+            self.success = True
         elif (data_k == 'pop_marriage'):
             FinalData = Population_indicator_b()
             FinalData.Parsercsv(data[2])
+            self.success = True
         else:
             FinalData = Population_indicator_c()
             FinalData.Parsercsv(data[2])
-        # return 'Success'
+            self.success = True
+        return self.success
 
 #取得新創公司財務損益平衡的模擬資料
 class GetCaseData():

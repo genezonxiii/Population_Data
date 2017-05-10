@@ -41,7 +41,7 @@ class Population_indicator_a():
                 args = (i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9],
                         i[10],i[11],i[12],i[13])
                 cursor.callproc('p_population_a', args)
-            db.commit()
+                db.commit()
         # except mysql.connector.Error as e:
         #     db.rollback()
         #     print(str(e))
@@ -86,8 +86,6 @@ class Population_indicator_d():
             logger.debug("=======write DB=======")
             self.writeDB(data)
             logger.debug('=====finally=====')
-            # for result in data:
-            #     print result
         except Exception as e:
             print e.message
             logger.debug(e.message)
@@ -100,12 +98,8 @@ class Population_indicator_d():
             db = mysql.connector.connect(host=config.dbServer, user=config.dbUser, password=config.dbPwd, database=config.dbName)
             db.set_charset_collation('utf8')
             cursor = db.cursor()
-            idx = 1
-            for i in data:
-                # idx+=1
-                # if idx < 2830:
-                #     continue
 
+            for i in data:
                 args = (i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9],
                         i[10],i[11],i[12],i[13], i[14], i[15], i[16], i[17], i[18], i[19],
                         i[20], i[21], i[22], i[23])
@@ -199,63 +193,10 @@ class Population_indicator_d():
 
             no_edu = 0
             self_edu = 0
-
-            # ele_edu = int(row['M_A15A24_E4_M1_CNT']) + int(row['M_A15A24_E4_M2_CNT']) + int(row['M_A15A24_E4_M3_CNT']) + int(row['M_A15A24_E4_M4_CNT']) + \
-            #           int(row['M_A25A34_E4_M1_CNT']) + int(row['M_A25A34_E4_M2_CNT']) + int(row['M_A25A34_E4_M3_CNT']) + int(row['M_A25A34_E4_M4_CNT']) + \
-            #           int(row['M_A35A44_E4_M1_CNT']) + int(row['M_A35A44_E4_M2_CNT']) + int(row['M_A35A44_E4_M3_CNT']) + int(row['M_A35A44_E4_M4_CNT']) + \
-            #           int(row['M_A45A54_E4_M1_CNT']) + int(row['M_A45A54_E4_M2_CNT']) + int(row['M_A45A54_E4_M3_CNT']) + int(row['M_A45A54_E4_M4_CNT']) + \
-            #           int(row['M_A55A64_E4_M1_CNT']) + int(row['M_A55A64_E4_M2_CNT']) + int(row['M_A55A64_E4_M3_CNT']) + int(row['M_A55A64_E4_M4_CNT']) + \
-            #           int(row['M_A65UP_E4_M1_CNT']) + int(row['M_A65UP_E4_M2_CNT']) + int(row['M_A65UP_E4_M3_CNT']) + int(row['M_A65UP_E4_M4_CNT']) + \
-            #           int(row['F_A15A24_E4_M1_CNT']) + int(row['F_A15A24_E4_M2_CNT']) + int(row['F_A15A24_E4_M3_CNT']) + int(row['F_A15A24_E4_M4_CNT']) + \
-            #           int(row['F_A25A34_E4_M1_CNT']) + int(row['F_A25A34_E4_M2_CNT']) + int(row['F_A25A34_E4_M3_CNT']) + int(row['F_A25A34_E4_M4_CNT']) + \
-            #           int(row['F_A35A44_E4_M1_CNT']) + int(row['F_A35A44_E4_M2_CNT']) + int(row['F_A35A44_E4_M3_CNT']) + int(row['F_A35A44_E4_M4_CNT']) + \
-            #           int(row['F_A45A54_E4_M1_CNT']) + int(row['F_A45A54_E4_M2_CNT']) + int(row['F_A45A54_E4_M3_CNT']) + int(row['F_A45A54_E4_M4_CNT']) + \
-            #           int(row['F_A55A64_E4_M1_CNT']) + int(row['F_A55A64_E4_M2_CNT']) + int(row['F_A55A64_E4_M3_CNT']) + int(row['F_A55A64_E4_M4_CNT']) + \
-            #           int(row['F_A65UP_E4_M1_CNT']) + int(row['F_A65UP_E4_M2_CNT']) + int(row['F_A65UP_E4_M3_CNT']) + int(row['F_A65UP_E4_M4_CNT'])
             ele_edu = 0
-
-            # jun_edu = int(row['M_A15A24_E3_M1_CNT']) + int(row['M_A15A24_E3_M2_CNT']) + int(row['M_A15A24_E3_M3_CNT']) + int(row['M_A15A24_E3_M4_CNT']) + \
-            #           int(row['M_A25A34_E3_M1_CNT']) + int(row['M_A25A34_E3_M2_CNT']) + int(row['M_A25A34_E3_M3_CNT']) + int(row['M_A25A34_E3_M4_CNT']) + \
-            #           int(row['M_A35A44_E3_M1_CNT']) + int(row['M_A35A44_E3_M2_CNT']) + int(row['M_A35A44_E3_M3_CNT']) + int(row['M_A35A44_E3_M4_CNT']) + \
-            #           int(row['M_A45A54_E3_M1_CNT']) + int(row['M_A45A54_E3_M2_CNT']) + int(row['M_A45A54_E3_M3_CNT']) + int(row['M_A45A54_E3_M4_CNT']) + \
-            #           int(row['M_A55A64_E3_M1_CNT']) + int(row['M_A55A64_E3_M2_CNT']) + int(row['M_A55A64_E3_M3_CNT']) + int(row['M_A55A64_E3_M4_CNT']) + \
-            #           int(row['M_A65UP_E3_M1_CNT']) + int(row['M_A65UP_E3_M2_CNT']) + int(row['M_A65UP_E3_M3_CNT']) + int(row['M_A65UP_E3_M4_CNT']) + \
-            #           int(row['F_A15A24_E3_M1_CNT']) + int(row['F_A15A24_E3_M2_CNT']) + int(row['F_A15A24_E3_M3_CNT']) + int(row['F_A15A24_E3_M4_CNT']) + \
-            #           int(row['F_A25A34_E3_M1_CNT']) + int(row['F_A25A34_E3_M2_CNT']) + int(row['F_A25A34_E3_M3_CNT']) + int(row['F_A25A34_E3_M4_CNT']) + \
-            #           int(row['F_A35A44_E3_M1_CNT']) + int(row['F_A35A44_E3_M2_CNT']) + int(row['F_A35A44_E3_M3_CNT']) + int(row['F_A35A44_E3_M4_CNT']) + \
-            #           int(row['F_A45A54_E3_M1_CNT']) + int(row['F_A45A54_E3_M2_CNT']) + int(row['F_A45A54_E3_M3_CNT']) + int(row['F_A45A54_E3_M4_CNT']) + \
-            #           int(row['F_A55A64_E3_M1_CNT']) + int(row['F_A55A64_E3_M2_CNT']) + int(row['F_A55A64_E3_M3_CNT']) + int(row['F_A55A64_E3_M4_CNT']) + \
-            #           int(row['F_A65UP_E3_M1_CNT']) + int(row['F_A65UP_E3_M2_CNT']) + int(row['F_A65UP_E3_M3_CNT']) + int(row['F_A65UP_E3_M4_CNT'])
             jun_edu = 0
-
-            # sen_edu = int(row['M_A15A24_E2_M1_CNT']) + int(row['M_A15A24_E2_M2_CNT']) + int(row['M_A15A24_E2_M3_CNT']) + int(row['M_A15A24_E2_M4_CNT']) + \
-            #           int(row['M_A25A34_E2_M1_CNT']) + int(row['M_A25A34_E2_M2_CNT']) + int(row['M_A25A34_E2_M3_CNT']) + int(row['M_A25A34_E2_M4_CNT']) + \
-            #           int(row['M_A35A44_E2_M1_CNT']) + int(row['M_A35A44_E2_M2_CNT']) + int(row['M_A35A44_E2_M3_CNT']) + int(row['M_A35A44_E2_M4_CNT']) + \
-            #           int(row['M_A45A54_E2_M1_CNT']) + int(row['M_A45A54_E2_M2_CNT']) + int(row['M_A45A54_E2_M3_CNT']) + int(row['M_A45A54_E2_M4_CNT']) + \
-            #           int(row['M_A55A64_E2_M1_CNT']) + int(row['M_A55A64_E2_M2_CNT']) + int(row['M_A55A64_E2_M3_CNT']) + int(row['M_A55A64_E2_M4_CNT']) + \
-            #           int(row['M_A65UP_E2_M1_CNT']) + int(row['M_A65UP_E2_M2_CNT']) + int(row['M_A65UP_E2_M3_CNT']) + int(row['M_A65UP_E2_M4_CNT']) + \
-            #           int(row['F_A15A24_E2_M1_CNT']) + int(row['F_A15A24_E2_M2_CNT']) + int(row['F_A15A24_E2_M3_CNT']) + int(row['F_A15A24_E2_M4_CNT']) + \
-            #           int(row['F_A25A34_E2_M1_CNT']) + int(row['F_A25A34_E2_M2_CNT']) + int(row['F_A25A34_E2_M3_CNT']) + int(row['F_A25A34_E2_M4_CNT']) + \
-            #           int(row['F_A35A44_E2_M1_CNT']) + int(row['F_A35A44_E2_M2_CNT']) + int(row['F_A35A44_E2_M3_CNT']) + int(row['F_A35A44_E2_M4_CNT']) + \
-            #           int(row['F_A45A54_E2_M1_CNT']) + int(row['F_A45A54_E2_M2_CNT']) + int(row['F_A45A54_E2_M3_CNT']) + int(row['F_A45A54_E2_M4_CNT']) + \
-            #           int(row['F_A55A64_E2_M1_CNT']) + int(row['F_A55A64_E2_M2_CNT']) + int(row['F_A55A64_E2_M3_CNT']) + int(row['F_A55A64_E2_M4_CNT']) + \
-            #           int(row['F_A65UP_E2_M1_CNT']) + int(row['F_A65UP_E2_M2_CNT']) + int(row['F_A65UP_E2_M3_CNT']) + int(row['F_A65UP_E2_M4_CNT'])
             sen_edu = 0
-
-            # col_edu = int(row['M_A15A24_E1_M1_CNT']) + int(row['M_A15A24_E1_M2_CNT']) + int(row['M_A15A24_E1_M3_CNT']) + int(row['M_A15A24_E1_M4_CNT']) + \
-            #           int(row['M_A25A34_E1_M1_CNT']) + int(row['M_A25A34_E1_M2_CNT']) + int(row['M_A25A34_E1_M3_CNT']) + int(row['M_A25A34_E1_M4_CNT']) + \
-            #           int(row['M_A35A44_E1_M1_CNT']) + int(row['M_A35A44_E1_M2_CNT']) + int(row['M_A35A44_E1_M3_CNT']) + int(row['M_A35A44_E1_M4_CNT']) + \
-            #           int(row['M_A45A54_E1_M1_CNT']) + int(row['M_A45A54_E1_M2_CNT']) + int(row['M_A45A54_E1_M3_CNT']) + int(row['M_A45A54_E1_M4_CNT']) + \
-            #           int(row['M_A55A64_E1_M1_CNT']) + int(row['M_A55A64_E1_M2_CNT']) + int(row['M_A55A64_E1_M3_CNT']) + int(row['M_A55A64_E1_M4_CNT']) + \
-            #           int(row['M_A65UP_E1_M1_CNT']) + int(row['M_A65UP_E1_M2_CNT']) + int(row['M_A65UP_E1_M3_CNT']) + int(row['M_A65UP_E1_M4_CNT']) + \
-            #           int(row['F_A15A24_E1_M1_CNT']) + int(row['F_A15A24_E1_M2_CNT']) + int(row['F_A15A24_E1_M3_CNT']) + int(row['F_A15A24_E1_M4_CNT']) + \
-            #           int(row['F_A25A34_E1_M1_CNT']) + int(row['F_A25A34_E1_M2_CNT']) + int(row['F_A25A34_E1_M3_CNT']) + int(row['F_A25A34_E1_M4_CNT']) + \
-            #           int(row['F_A35A44_E1_M1_CNT']) + int(row['F_A35A44_E1_M2_CNT']) + int(row['F_A35A44_E1_M3_CNT']) + int(row['F_A35A44_E1_M4_CNT']) + \
-            #           int(row['F_A45A54_E1_M1_CNT']) + int(row['F_A45A54_E1_M2_CNT']) + int(row['F_A45A54_E1_M3_CNT']) + int(row['F_A45A54_E1_M4_CNT']) + \
-            #           int(row['F_A55A64_E1_M1_CNT']) + int(row['F_A55A64_E1_M2_CNT']) + int(row['F_A55A64_E1_M3_CNT']) + int(row['F_A55A64_E1_M4_CNT']) + \
-            #           int(row['F_A65UP_E1_M1_CNT']) + int(row['F_A65UP_E1_M2_CNT']) + int(row['F_A65UP_E1_M3_CNT']) + int(row['F_A65UP_E1_M4_CNT'])
             col_edu = 0
-
             uni_edu = 0
             mas_edu = 0
             phd_edu = 0
@@ -484,7 +425,7 @@ class Population_indicator_c:
 if __name__ == '__main__':
     # mssql = Population_indicator_d()
     # print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DBC09B9B1454506F40B9422055B5A47ABBD5421BC7960893AF')
-    # tmp = Population_indicator_a()
-    # print tmp.ParserJson(url = 'http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DB309864665027587E2539094FCB65D41BDDE79C332EB9258D')
-    mssql = Population_indicator_e()
-    print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DBFCC17E8034AB503F212AB7B0B0B2E8CAD5421BC7960893AF')
+    tmp = Population_indicator_a()
+    print tmp.ParserJson(url = 'http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DB309864665027587E2539094FCB65D41BDDE79C332EB9258D')
+    # mssql = Population_indicator_e()
+    # print mssql.ParserJson(url='http://segisws.moi.gov.tw/STATWSSTData/OpenService.asmx/GetAdminSTDataForOpenCode?oCode=ECC48479C0B91632E91C5874DF23C60E51A1FBEE829C41DBFCC17E8034AB503F212AB7B0B0B2E8CAD5421BC7960893AF')

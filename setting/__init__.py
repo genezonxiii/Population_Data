@@ -5,7 +5,7 @@ class Config:
     global dbServer,dbUser,dbPwd,dbName,SIIS_User,SIIS_Pwd,SIIS_db
     # �]�w MSSQL�s�u
     def __init__(self):
-        self.dbServer = '192.168.112.155'
+        self.dbServer = '61.218.8.51'
         self.dbUser = 'sa'
         self.dbPwd = 'Admin123!'
         self.dbName = 'CDRI-SIIS'
@@ -24,10 +24,17 @@ class Config_2:
         self.dbPwd = 'admin123'
         self.dbName='cdri'
         self.path='/data/cdriqrcode/'
+
         # self.dbServer = 'localhost'
         # self.dbUser = 'root'
         # self.dbPwd = 'mysql'
         # self.dbName = 'cdri'
+        # self.path = '/data/cdriqrcode/'
+
+        # self.dbServer = 'localhost'
+        # self.dbUser = 'root'
+        # self.dbPwd = 'admin123'
+        # self.dbName = 'sbi'
         # self.path = '/data/cdriqrcode/'
         
         #Mongodb �s�u
