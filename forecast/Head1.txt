@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+  <title>SIIS 每日產業重點新聞電子報</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+  <style>
+    /* Reset Styles */
+    body{width:100% !important;background-color:#eeeeee;font-family: "微軟正黑體", Arial;margin:0; padding:0;}
+    img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+    table {border-collapse:collapse;}
+    table td{border-collapse:collapse;}
+    a{text-decoration: none !important;}
+    a:link{text-decoration: none !important;}
+    a[x-apple-data-detectors] {color: inherit !important;text-decoration: none !important;font-size: inherit !important;font-family: inherit !important;font-weight: inherit !important;line-height: inherit !important;}
+  </style>
+</head>
+<body bgcolor="#EEEEEE" leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+  <center>
+    <table width="720" border="0">
+     <!-- <tr>
+        <td align="center"><span style="color:#666666;font-size:12px;">《若您看不到此 Email 訊息或無法正常顯示，煩請按下此 <a href="">連結</a>，謝謝！》</span></td>
+      </tr>-->
+      <tr>
+        <td>
+          <img src="http://sbi1.cdri.org.tw/SBI/bg_banner_sbi.jpg" alt="SIIS 每日產業重點新聞電子報" width="720" height="" style="border: 0 !important;display:block !important;"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table width="100%">
+            <tr>
+              <td bgcolor="#372161"></td>
+              <td align="center" bgcolor="#2b9abe" width="200"><span style="color:#ffffff;font-size:15px;">出版日期：
