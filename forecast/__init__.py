@@ -9,7 +9,7 @@ import json
 import uuid
 import pyqrcode
 import png
-import pymssql
+# import pymssql
 
 #新品風向預測
 class ProductForecast():
