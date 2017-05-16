@@ -274,7 +274,7 @@ class findMSNews():
                               where EpaperType ='1' and EpaperDate between CAST(year('" + resultDate + "') AS VARCHAR)\
             			  +'-'+CAST(month('" + resultDate + "') AS VARCHAR)+'-'+CAST(DAY('" + resultDate + "') AS VARCHAR)+' 00:00:00' \
             			 AND CAST(year('" + resultDate + "') AS VARCHAR)+'-'+CAST(month('" + resultDate + "') AS VARCHAR)\
-            			+'-'+CAST(DAY('" + resultDate + "') AS VARCHAR)+' 23:59:59'  order by EpaperDate desc"
+            			+'-'+CAST(DAY('" + resultDate + "') AS VARCHAR)+' 23:59:59'  order by EpaperType , EpaperDate desc"
             self.conn = self.getConnection()
             cursor = self.conn.cursor()
             cursor.execute(strSQL)
