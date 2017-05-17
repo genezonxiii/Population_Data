@@ -7,12 +7,4 @@
     <table width="720" border="0" align="center" cellspacing="0" cellpadding="0">
       <tr>
         <td align="center"><p style="color:#333333;font-size:13px;">版權所有 &copy;2012 經濟部技術處服務業國際化知識能量整合與建置計劃</p>
-        <span style="color:#555555;font-size:13px;">承辦單位：財團法人商業發展研究院 | <a href="">電子報</a> | <br>如欲取消訂閱,請至 會員專區 &gt; 個人資料 &gt; 電子報個人化設定或電子報 &gt; 訂閱電子報取消勾選</span></td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-      </tr>
-    </table><!-- FOOTER -->
-  </center>
-</body>
-</html>
+        <span style="color:#555555;font-size:13px;">承辦單位：財團法人商業發展研究院 | <a href="">電子報</a> | <br>如欲取消訂閱,請至 <a href="http://192.168.112.164/sbi/cancelRegisterEpaper.jsp?

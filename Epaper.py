@@ -115,18 +115,23 @@ class SendEpaper():
         # 個人單獨發 mail
         for row in self.receivers:
             Receiver = []
+            mailCancel = row['email'].encode('utf-8')
             Receiver.append(row['email'])
-            self.Send(sender,row['User'].encode('utf-8'),Receiver,Content)
+            self.Send(sender,row['User'].encode('utf-8'),Receiver,mailCancel,Content)
         # 群體發 mail
         # self.Send(sender,'電子報訂戶',self.receivers,Content)
 
-    def Send(self,Sender,RecerverName,Receivers,Content):
+    def Send(self,Sender,RecerverName,Receivers,MailCancel,Content):
         try:
             msg = MIMEMultipart()
             msg['Subject'] = u'SBI 每日產業重點新聞電子報'
             msg["From"] = Sender
             msg["To"] = ', '.join(Receivers)
             text = "<p>Hi! " + RecerverName + " 您好<br>您訂閱的電子報如下：</p>"
+            Content += MailCancel.encode('base64')
+            with open('Foot1.txt', 'r') as f:
+                Content += f.read()
+            f.close()
             part = MIMEText(text + Content, 'html')
             msg.attach(part)
             smtpObj = smtplib.SMTP(self.config.SMTP)
