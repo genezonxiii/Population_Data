@@ -219,7 +219,7 @@ class convertType():
         except Exception as e:
             logger.error(e.message)
 
-    def ToDecimal(self,value):
+    def ToFloat(self,value):
         try:
             if value== None :
                 return 0.0
@@ -1793,3 +1793,198 @@ class Variables():
 
     def getVariablename(self):
         return self.p_variablename
+
+class POI():
+    p_type, p_subtype, p_name, p_address, p_BD = None, None, None, None, None
+    p_lng, p_lat, p_icon, p_memo, p_reserved = None, None, None, None, None
+
+    def __init__(self):
+        self.convert = convertType()
+    def __del__(self):
+        self.convert = None
+
+    def setType(self,value):
+        self.p_type = self.convert.ToString(value.encode('utf-8'))
+
+    def setSubType(self,value):
+        self.p_subtype = self.convert.ToString(value.encode('utf-8'))
+
+    def setName(self,value):
+        self.p_name = self.convert.ToString(value.encode('utf-8'))
+
+    def setAddress(self,value):
+        self.p_address = self.convert.ToString(value.encode('utf-8'))
+
+    def setBD(self,value):
+        self.p_BD = self.convert.ToString(value.encode('utf-8'))
+
+    def setLongitude(self,value):
+        self.p_lng = self.convert.ToStringNoEncode(value)
+
+    def setLatitude(self,value):
+        self.p_lat = self.convert.ToStringNoEncode(value)
+
+    def setIcon(self,value):
+        self.p_icon = self.convert.ToString(value.encode('utf-8'))
+
+    def setMemo(self,value):
+        self.p_memo = self.convert.ToString(value.encode('utf-8'))
+
+    def setReserved(self,value):
+        self.p_reserved = self.convert.ToString(value.encode('utf-8'))
+
+    def getType(self):
+        return self.p_type
+
+    def getSubtype(self):
+        return self.p_subtype
+
+    def getName(self):
+        return self.p_name
+
+    def getAddress(self):
+        return self.p_address
+
+    def getBD(self):
+        return self.p_BD
+
+    def getLongitude(self):
+        return  self.p_lng
+
+    def getLatitude(self):
+        return  self.p_lat
+
+    def getIcon(self):
+        return  self.p_icon
+
+    def getMemo(self):
+        return self.p_memo
+
+    def getReserved(self):
+        return self.p_reserved
+
+class Countrystatistic():
+    p_country, p_structure, p_dimensions, p_source, p_target = None, None, None, None, None
+    p_second_target, p_unit, p_type, p_data = None, None, None, None
+
+    def __init__(self):
+        self.convert = convertType()
+    def __del__(self):
+        self.convert = None
+
+    def setCountry(self,value):
+        self.p_country = self.convert.ToString(value.encode('utf-8'))
+
+    def setStructure(self,value):
+        self.p_structure = self.convert.ToString(value.encode('utf-8'))
+
+    def setDimensions(self,value):
+        self.p_dimensions = self.convert.ToString(value.encode('utf-8'))
+
+    def setSource(self,value):
+        self.p_source = self.convert.ToString(value.encode('utf-8'))
+
+    def setTarget(self,value):
+        self.p_target = self.convert.ToString(value.encode('utf-8'))
+
+    def setSecond_target(self,value):
+        self.p_second_target = self.convert.ToString(value.encode('utf-8'))
+
+    def setUnit(self,value):
+        self.p_unit = self.convert.ToString(value.encode('utf-8'))
+
+    def setType(self,value):
+        self.p_type = self.convert.ToInt(value)
+
+    def setData(self,value):
+        self.p_data = self.convert.ToDecimal(value)
+
+    def getCountry(self):
+        return self.p_country
+
+    def getStructure(self):
+        return self.p_structure
+
+    def getDimensions(self):
+        return self.p_dimensions
+
+    def getSource(self):
+        return self.p_source
+
+    def getTarget(self):
+        return self.p_target
+
+    def getSecond_Target(self):
+        return self.p_second_target
+
+    def getUnit(self):
+        return self.p_unit
+
+    def getType(self):
+        return self.p_type
+
+    def getData(self):
+        return self.p_data
+
+class Countrycitystatistic():
+    p_city, p_structure, p_dimensions, p_source, p_target = None, None, None, None, None
+    p_second_target, p_unit, p_type, p_data = None, None, None, None
+
+    def __init__(self):
+        self.convert = convertType()
+    def __del__(self):
+        self.convert = None
+
+    def setCity(self,value):
+        self.p_city = self.convert.ToString(value.encode('utf-8'))
+
+    def setStructure(self,value):
+        self.p_structure = self.convert.ToString(value.encode('utf-8'))
+
+    def setDimensions(self,value):
+        self.p_dimensions = self.convert.ToString(value.encode('utf-8'))
+
+    def setSource(self,value):
+        self.p_source = self.convert.ToString(value.encode('utf-8'))
+
+    def setTarget(self,value):
+        self.p_target = self.convert.ToString(value.encode('utf-8'))
+
+    def setSecond_target(self,value):
+        self.p_second_target = self.convert.ToString(value.encode('utf-8'))
+
+    def setUnit(self,value):
+        self.p_unit = self.convert.ToString(value.encode('utf-8'))
+
+    def setType(self,value):
+        self.p_type = self.convert.ToInt(value)
+
+    def setData(self,value):
+        self.p_data = self.convert.ToDecimal(value)
+
+    def getCity(self):
+        return self.p_city
+
+    def getStructure(self):
+        return self.p_structure
+
+    def getDimensions(self):
+        return self.p_dimensions
+
+    def getSource(self):
+        return self.p_source
+
+    def getTarget(self):
+        return self.p_target
+
+    def getSecond_Target(self):
+        return self.p_second_target
+
+    def getUnit(self):
+        return self.p_unit
+
+    def getType(self):
+        return self.p_type
+
+    def getData(self):
+        return self.p_data

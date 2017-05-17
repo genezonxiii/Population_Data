@@ -23,8 +23,7 @@ class Population_indicator_a():
             for each in result['RowDataList']:
                 self.CombindData(each, data)
             self.writeDB(data)
-            # for result in data:
-            #     print result
+
         except Exception as e:
             print e.message
             logger.debug(e.message)
@@ -42,9 +41,7 @@ class Population_indicator_a():
                         i[10],i[11],i[12],i[13])
                 cursor.callproc('p_population_a', args)
                 db.commit()
-        # except mysql.connector.Error as e:
-        #     db.rollback()
-        #     print(str(e))
+
         except Exception as e:
             db.rollback()
             print(str(e))
