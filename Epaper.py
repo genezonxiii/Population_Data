@@ -92,10 +92,10 @@ class GetNewsData():
         # 取得商機觀測站內容及排版
         IndustryDoc = '<td width="50%" valign="top">' + '\n'
         IndustryDoc += '<table cellspacing="4" cellpadding="4" width="100%">' + '\n'
-        IndustryDoc += '<tr><td><h2 style="border-bottom: 1px solid #aaaaaa;color:#372161;font-size:21px;margin:0;padding:0;">產業評析</h2></td></tr>' + '\n'
+        IndustryDoc += '<tr><td><h2 style="border-bottom: 1px solid #aaaaaa;color:#372161;font-size:21px;margin:0;padding:0;">商機觀測</h2></td></tr>' + '\n'
         for row in result :
             IndustryDoc += '<tr><td><a href="' + self.config.IndustryDoc + row[1].encode('utf-8') + '" style="color:#2b9abe;font-size:15px;text-decoration: none;">' + '\n'
-        IndustryDoc += row[0].encode('utf-8') + '</a></td></tr>' + '\n'
+            IndustryDoc += row[0].encode('utf-8') + '</a></td></tr>' + '\n'
         IndustryDoc += '</table>' + '\n'
         IndustryDoc += '</td><!-- RIGHT col -->' + '\n'
         IndustryDoc += '</tr>' + '\n'
