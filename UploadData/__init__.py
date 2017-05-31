@@ -26,6 +26,9 @@ from ToMysql.CountryLaborForce import CountryLaborForceData
 from ToMysql.Gender import GenderData
 from ToMysql.MarketSize import MarketsizeData
 from ToMysql.Variables import VariablesData
+from ToMysql.POI import POIData
+from ToMysql.Countrystatistic import CountrystatisticData
+from ToMysql.Countrycitystatistic import CountrycitystatisticData
 import  logging
 
 logger = logging.getLogger(__name__)
@@ -117,7 +120,15 @@ class SBI_Data():
         elif Industry == 'Variables':
             FinalData = VariablesData()
             return FinalData.GetData(os.path.join(DataPath))
-
+        elif Industry == 'POI' :
+            FinalData = POIData()
+            return FinalData.GetData(os.path.join(DataPath))
+        elif Industry == 'Countrystatistic':
+            FinalData = CountrystatisticData()
+            return FinalData.GetData(os.path.join(DataPath))
+        elif Industry == 'Countrycitystatistic':
+            FinalData = CountrycitystatisticData()
+            return FinalData.GetData(os.path.join(DataPath))
 
 if __name__ == '__main__':
     Business = SBI_Data()

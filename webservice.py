@@ -317,6 +317,6 @@ class Webapi():
                     ret = CROD.getCompanyRegister(data[1])
             return json.dumps(ret)
         #http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
-        
+
 if __name__ == "__main__":
     app.run()
