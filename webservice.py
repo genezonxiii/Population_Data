@@ -12,10 +12,12 @@ from UploadData import SBI_Data
 from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews,EntrySrategy
 from GroupDecision import DecisionMain,DecisionChannel,DecisionCompet
 import logging, time
+from Webapi import *
 
-urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,\
-        "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",\
-        "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntryStrategy")
+urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,
+        "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",
+        "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntryStrategy",
+        "/Webapi/(.*)","Webapi")
 app = web.application(urls, globals())
 
 logger = logging.getLogger(__name__)
@@ -281,5 +283,40 @@ class GetEntryStrategy():
         return resule
         # http://localhost:8080/entrysrategy/_cy=Mg==&sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
 
+#Webapi 取POI,公司統計的資料
+class Webapi():
+    def GET(self,name):
+        data=name.split('&')
+        if(data[0][:4]=="type"):
+            for i in range(len(data)):
+                data[i]=data[i][5:len(data[i])].decode('base64')
+            logger.debug('===Webapi===')
+            logger.debug('data[0]:' + data[0])
+            web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
+            ret = None
+            if (data[0] == "POI"):
+                if (len(data[1]) > 0):
+                    PD = getPOI_Data()
+                    ret = PD.getPOI(data[1])
+            if (data[0] == "CompanyRegisterType"):
+                if (len(data[1])> 0):
+                    print data[1]
+                    CRTD = getCompanyRegisterType_Data()
+                    ret = CRTD.getCompanyRegister(data[1])
+            if (data[0] == "CompanyRegisterList"):
+                if (len(data[1]) > 0):
+                    CRLD = getCompanyRegisterList_Data()
+                    ret = CRLD.getCompanyRegister(data[1])
+            if (data[0] == "CompanyRegisterOther"):
+                if (len(data[1]) > 0):
+                    CROD = getCompanyRegisterOther_Data()
+                    ret = CROD.getCompanyRegister(data[1])
+            if (data[0] == "CompanyRegisterStat"):
+                if (len(data[1]) > 0):
+                    CROD = getCompanyRegisterStat_Data()
+                    ret = CROD.getCompanyRegister(data[1])
+            return json.dumps(ret)
+        #http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
+        
 if __name__ == "__main__":
     app.run()
