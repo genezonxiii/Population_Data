@@ -1988,3 +1988,134 @@ class Countrycitystatistic():
 
     def getData(self):
         return self.p_data
+
+class DB():
+    p_city, p_BD, p_population, p_status, p_radiation = None, None, None, None, None
+    p_traffic, p_resident, p_income, p_revenue, p_expenditur = None, None, None, None, None
+    p_nearstreet, p_dept_store, p_working_po, p_5risk, p_area = None, None, None, None, None
+    p_geometry, p_lng, p_lat, p_business_cost, p_memo = None, None, None, None, None
+
+    def __init__(self):
+        self.convert = convertType()
+    def __del__(self):
+        self.convert = None
+
+    def setCity(self,value):
+        self.p_city = self.convert.ToString(value.encode('utf-8'))
+
+    def setBD(self,value):
+        self.p_BD = self.convert.ToStringNoEncode(value)
+
+    def setPopulation(self,value):
+        self.p_population = self.convert.ToStringNoEncode(value)
+
+    def setStatus(self, value):
+        self.p_status = self.convert.ToStringNoEncode(value)
+
+    def setRadiation(self,value):
+        self.p_radiation = self.convert.ToStringNoEncode(value)
+
+    def setTraffic(self,value):
+        self.p_traffic = self.convert.ToStringNoEncode(value)
+
+    def setResident(self,value):
+        self.p_resident = self.convert.ToFloat(value)
+
+    def setIncome(self,value):
+        self.p_income = self.convert.ToFloat(value)
+
+    def setRevenue(self,value):
+        self.p_revenue = self.convert.ToFloat(value)
+
+    def setExpenditur(self,value):
+        self.p_expenditur = self.convert.ToFloat(value)
+
+    def setNearstreet(self,value):
+        self.p_nearstreet = self.convert.ToFloat(value)
+
+    def setDept_store(self,value):
+        self.p_dept_store = self.convert.ToFloat(value)
+
+    def setWorking_po(self,value):
+        self.p_working_po = self.convert.ToFloat(value)
+
+    def setRisk(self,value):
+        self.p_5risk = self.convert.ToFloat(value)
+
+    def setArea(self,value):
+        self.p_area = self.convert.ToStringNoEncode(value)
+
+    def setGeometry(self,value):
+        self.p_geometry = self.convert.ToStringNoEncode(value)
+
+    def setLng(self,value):
+        self.p_lng = self.convert.ToFloat(value)
+
+    def setLat(self,value):
+        self.p_lat = self.convert.ToFloat(value)
+
+    def setBusiness_cost(self,value):
+        self.p_business_cost = self.convert.ToStringNoEncode(value)
+
+    def setMemo(self,value):
+        self.p_memo = self.convert.ToString(value)
+
+    def getCity(self):
+        return self.p_city
+
+    def getBD(self):
+        return self.p_BD
+
+    def getPopulation(self):
+        return self.p_population
+
+    def getStatus(self):
+        return self.p_status
+
+    def getRadiation(self):
+        return self.p_radiation
+
+    def getTraffic(self):
+        return self.p_traffic
+
+    def getResident(self):
+        return self.p_resident
+
+    def getIncome(self):
+        return self.p_income
+
+    def getRevenue(self):
+        return self.p_revenue
+
+    def getExpenditur(self):
+        return self.p_expenditur
+
+    def getNearstreet(self):
+        return self.p_nearstreet
+
+    def getDept_store(self):
+        return self.p_dept_store
+
+    def getWorking_po(self):
+        return self.p_working_po
+
+    def getRisk(self):
+        return self.p_5risk
+
+    def getArea(self):
+        return self.p_area
+
+    def getGeometry(self):
+        return self.p_geometry
+
+    def getLng(self):
+        return self.p_lng
+
+    def getLat(self):
+        return self.p_lat
+
+    def getBusiness_cost(self):
+        return self.p_business_cost
+
+    def getMemo(self):
+        return self.p_memo

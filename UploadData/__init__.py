@@ -29,6 +29,7 @@ from ToMysql.Variables import VariablesData
 from ToMysql.POI import POIData
 from ToMysql.Countrystatistic import CountrystatisticData
 from ToMysql.Countrycitystatistic import CountrycitystatisticData
+from ToMysql.DB import DBData
 import  logging
 
 logger = logging.getLogger(__name__)
@@ -128,6 +129,9 @@ class SBI_Data():
             return FinalData.GetData(os.path.join(DataPath))
         elif Industry == 'Countrycitystatistic':
             FinalData = CountrycitystatisticData()
+            return FinalData.GetData(os.path.join(DataPath))
+        elif Industry == 'DB':
+            FinalData = DBData()
             return FinalData.GetData(os.path.join(DataPath))
 
 if __name__ == '__main__':
