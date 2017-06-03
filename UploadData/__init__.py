@@ -130,7 +130,7 @@ class SBI_Data():
         elif Industry == 'Countrycitystatistic':
             FinalData = CountrycitystatisticData()
             return FinalData.GetData(os.path.join(DataPath))
-        elif Industry == 'DB':
+        elif Industry == 'BD':
             FinalData = DBData()
             return FinalData.GetData(os.path.join(DataPath))
 
