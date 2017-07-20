@@ -287,45 +287,48 @@ class GetEntryStrategy():
 class Webapi():
     def GET(self,name):
         data=name.split('&')
-        if(data[0][:4]=="type"):
-            for i in range(len(data)):
-                data[i]=data[i][5:len(data[i])].decode('base64')
-            logger.debug('===Webapi===')
-            logger.debug('data[0]:' + data[0])
-            ret = None
-            if (data[0] == "POI"):
-                if (len(data[1]) > 0):
-                    PD = getPOI_Data()
-                    ret = PD.getPOI(data[1])
-            if (data[0] == "CompanyRegisterType"):
-                if (len(data[1])> 0):
-                    print data[1]
-                    CRTD = getCompanyRegisterType_Data()
-                    ret = CRTD.getCompanyRegister(data[1])
-            if (data[0] == "CompanyRegisterList"):
-                if (len(data[1]) > 0):
-                    CRLD = getCompanyRegisterList_Data()
-                    ret = CRLD.getCompanyRegister(data[1])
-            if (data[0] == "CompanyRegisterOther"):
-                if (len(data[1]) > 0):
-                    CROD = getCompanyRegisterOther_Data()
-                    ret = CROD.getCompanyRegister(data[1])
-            if (data[0] == "CompanyRegisterStat"):
-                if (len(data[1]) > 0):
-                    CROD = getCompanyRegisterStat_Data()
-                    ret = CROD.getCompanyRegister(data[1])
-            if (data[0] == "select_POI_hiyes"):
-                if (len(data[1]) > 0):
-                    GPHD = getPOIhiyesData()
-                    if data[4] == Config_2().token :
-                        ret = GPHD.getPOI(data[1],data[2],data[3])
-                    else:
-                        ret = {"result":"[]","msg":"error_for_wrong_token"}
-            web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
+        for i in range(len(data)):
+            data[i]=data[i][5:len(data[i])].decode('base64')
+        logger.debug('===Webapi===')
+        logger.debug('data[0]:' + data[0])
+        web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
 
-            return json.dumps(ret)
-        # http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
+        ret = None
+
+        if (data[0] == "POI"):
+            if (len(data[1]) > 0):
+                PD = getPOI_Data()
+                ret = PD.getPOI(data[1])
+        if (data[0] == "CompanyRegisterType"):
+            if (len(data[1])> 0):
+                CRTD = getCompanyRegisterType_Data()
+                ret = CRTD.getCompanyRegister(data[1])
+        if (data[0] == "CompanyRegisterList"):
+            if (len(data[1]) > 0):
+                CRLD = getCompanyRegisterList_Data()
+                ret = CRLD.getCompanyRegister(data[1])
+        if (data[0] == "CompanyRegisterOther"):
+            if (len(data[1]) > 0):
+                CROD = getCompanyRegisterOther_Data()
+                ret = CROD.getCompanyRegister(data[1])
+        if (data[0] == "CompanyRegisterStat"):
+            if (len(data[1]) > 0):
+                CROD = getCompanyRegisterStat_Data()
+                ret = CROD.getCompanyRegister(data[1])
+        if (data[0] == "select_POI_hiyes"):
+            if (len(data[1]) > 0):
+                logger.debug(len(data[1]))
+                logger.debug(Config_2().token)
+                GPHD = getPOIhiyesData()
+                if data[4] == Config_2().token :
+                    ret = GPHD.getPOI(data[1],data[2],data[3])
+                else:
+                    ret = {"result":"[]","msg":"error_for_wrong_token"}
+            else:
+                logger.debug("======")
+
+        return json.dumps(ret)
+        #http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
         # http://localhost:8080/Webapi/type=c2VsZWN0X1BPSV9oaXllcw==&lati=MjUuMDg2MjY3&long=MTIxLjU2MTE4OA==&radi=MzAw&token=1bc810fce28284b384b88d1803c842651b62f96c
-
 if __name__ == "__main__":
     app.run()
