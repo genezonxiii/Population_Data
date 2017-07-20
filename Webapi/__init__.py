@@ -249,7 +249,7 @@ class getPOIhiyesData():
     name_corr = None
     def __init__(self):
         #宣告對照用的欄位
-        self.name_corr=['poi_id','type','subtype','name','addr','BD','lng','lat','icon','memo','reserved']
+        self.name_corr=['poi_id','type','subtype','name','addr','BD','lng','lat','icon','memo','reserved','category']
     def getPOI(self,lat,lng,radius):
         try:
             GD = GetData()
