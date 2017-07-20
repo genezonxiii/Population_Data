@@ -5,6 +5,8 @@ import mysql.connector
 import json
 import sys , time, logging
 import traceback
+import binascii
+import os
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='/data/Population_Data/pyupload.log',
@@ -274,3 +276,69 @@ class getPOIhiyesData():
 
         except Exception as err:
             logger.debug('===getPOIhiyesData encounter error: '+str(err)+'===')
+
+# 產生 Token
+class getToken():
+    def __init__(self):
+        pass
+
+    def generToken(self):
+        return binascii.hexlify(os.urandom(10)).decode().upper()
+
+class CheckToken():
+    conn = None
+    def __init__(self):
+        pass
+
+    # 取得 db 連線
+    def getConnection(self):
+        try:
+            if (self.conn == None):
+                config = Config_2()
+                return mysql.connector.connect(user=config.dbUser, password=config.dbPwd,
+                                               host=config.dbServer, database=config.dbName)
+            else:
+                return self.conn
+        except mysql.connector.Error:
+            print "Connection DB Error"
+            raise
+        except Exception as e:
+            print e.message
+            raise
+
+    # 從 db 取得 select 結果
+    def getData(self, strSQL):
+        try:
+            self.conn = self.getConnection()
+            cursor = self.conn.cursor()
+            cursor.execute(strSQL)
+            data_row = []
+            for row in cursor.fetchall():
+                data_row.append(row)
+            cursor.close()
+            return data_row
+        except Exception as e:
+            print e.message
+            raise
+
+    # Check Token 是否屬於這個 User
+    def ConfirmToken(self,uid,token):
+        strSQL = "Select token from tb_user where user_id='" + uid + "' and token='" + token + "'"
+        result = self.getData(strSQL)
+        if len(result) > 0 :
+            return True
+        else:
+            return False
+
+if __name__ == '__main__':
+    Task = [False,True]
+
+    # 產生 Token
+    if Task[0]:
+        token = getToken()
+        print token.generToken()
+
+    #檢查 Token
+    if Task[1]:
+        CT = CheckToken()
+        print CT.ConfirmToken('026ea277-9c14-11e6-922d-005056af760c','092DB204725BA302B781')

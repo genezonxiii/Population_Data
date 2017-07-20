@@ -17,7 +17,7 @@ from Webapi import *
 urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,
         "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",
         "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntryStrategy",
-        "/Webapi/(.*)","Webapi")
+        "/Webapi/(.*)","Webapi","/GetToken/(.*)","GetToken")
 app = web.application(urls, globals())
 
 logger = logging.getLogger(__name__)
@@ -225,6 +225,7 @@ class GetPersona():
         resule = json.dumps(result)
         return resule
         # http://localhost:8080/persona/sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
+
 #決策空間
 class GetDecision():
     def GET(self, name):
@@ -292,26 +293,31 @@ class Webapi():
         logger.debug('===Webapi===')
         logger.debug('data[0]:' + data[0])
         web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
-
+        CT = CheckToken()
         ret = None
 
         if (data[0] == "POI"):
+            if CT.ConfirmToken(data[2],data[3]) == False : return
             if (len(data[1]) > 0):
                 PD = getPOI_Data()
                 ret = PD.getPOI(data[1])
         if (data[0] == "CompanyRegisterType"):
+            if CT.ConfirmToken(data[2], data[3]) == False: return
             if (len(data[1])> 0):
                 CRTD = getCompanyRegisterType_Data()
                 ret = CRTD.getCompanyRegister(data[1])
         if (data[0] == "CompanyRegisterList"):
+            if CT.ConfirmToken(data[2], data[3]) == False: return
             if (len(data[1]) > 0):
                 CRLD = getCompanyRegisterList_Data()
                 ret = CRLD.getCompanyRegister(data[1])
         if (data[0] == "CompanyRegisterOther"):
+            if CT.ConfirmToken(data[2], data[3]) == False: return
             if (len(data[1]) > 0):
                 CROD = getCompanyRegisterOther_Data()
                 ret = CROD.getCompanyRegister(data[1])
         if (data[0] == "CompanyRegisterStat"):
+            if CT.ConfirmToken(data[2], data[3]) == False: return
             if (len(data[1]) > 0):
                 CROD = getCompanyRegisterStat_Data()
                 ret = CROD.getCompanyRegister(data[1])
@@ -330,5 +336,13 @@ class Webapi():
         return json.dumps(ret)
         #http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
         # http://localhost:8080/Webapi/type=c2VsZWN0X1BPSV9oaXllcw==&lati=MjUuMDg2MjY3&long=MTIxLjU2MTE4OA==&radi=MzAw&token=1bc810fce28284b384b88d1803c842651b62f96c
+
+# 取得 Token
+class GetToken():
+    def GET(self, name):
+        token = getToken()
+        web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
+        return token.generToken()
+
 if __name__ == "__main__":
     app.run()
