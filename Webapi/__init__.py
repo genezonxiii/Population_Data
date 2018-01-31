@@ -277,6 +277,36 @@ class getPOIhiyesData():
         except Exception as err:
             logger.debug('===getPOIhiyesData encounter error: '+str(err)+'===')
 
+class getPOIWatsonData():
+    name_corr = None
+    def __init__(self):
+        #宣告對照用的欄位
+        self.name_corr=['poi_id','type','subtype','name','addr','BD','lng','lat','icon','memo','reserved','category']
+    def getPOI(self,lat,lng,radius):
+        try:
+            GD = GetData()
+            parameter = [lat,lng,radius]
+            #呼叫stored procedure
+            logger.debug('parameter: ' + lat+", " + lng+", " + radius)
+            result = GD.getData('sp_select_POI_watson', parameter)
+            #用array記錄回傳結果
+            logger.debug('===got '+str(len(result))+' datas===')
+            returnData = []
+            for row in result:
+                #產生dictionary去記錄每筆結果的值
+                resultVO = {}
+                #從1開始 去掉ID 後面少去掉memo
+                for i in range(0,len(row)):
+                    if(row[i]!= None):
+                        resultVO[self.name_corr[i]]=row[i]
+                    else:
+                        resultVO[self.name_corr[i]] = ""
+                returnData.append(resultVO)
+            return {"result":returnData}
+
+        except Exception as err:
+            logger.debug('===getPOIWatsonData encounter error: '+str(err)+'===')
+
 # 產生 Token
 class getToken():
     def __init__(self):

@@ -9,7 +9,7 @@ from population_data.population_indicator import *
 from population_data.population import *
 from CashFlow.CashFlowSim import *
 from UploadData import SBI_Data
-from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews,EntrySrategy
+from forecast import ProductForecast,findNews,ProductLicense,CalcuFinance,Persona,RegionSelect,findMSNews,EntrySrategy,Virtual_Persona
 from GroupDecision import DecisionMain,DecisionChannel,DecisionCompet
 import logging, time
 from Webapi import *
@@ -17,7 +17,7 @@ from Webapi import *
 urls = ("/OpenData/(.*)",'GetData',"/CashFlow/(.*)",'GetCaseData',"/sbiupload/(.*)", "Uploaddata","/forecast/(.*)","Forecast" ,
         "/news/(.*)","GetNews","/license/(.*)", "License","/finance/(.*)","GetFinanceResult","/persona/(.*)","GetPersona",
         "/selectregion/(.*)","GetRegion","/groupdecision/(.*)","GetDecision","/entrysrategy/(.*)","GetEntryStrategy",
-        "/Webapi/(.*)","Webapi","/GetToken/(.*)","GetToken")
+        "/Webapi/(.*)","Webapi","/GetToken/(.*)","GetToken","/VirtualPersona/(.*)","Get_VirtualPersona")
 app = web.application(urls, globals())
 
 logger = logging.getLogger(__name__)
@@ -226,6 +226,22 @@ class GetPersona():
         return resule
         # http://localhost:8080/persona/sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
 
+#虛擬目標客群
+class Get_VirtualPersona():
+    def GET(self, name):
+        data = name.split('&')
+        for i in range(len(data)):
+            data[i] = data[i][4:len(data[i])].decode('base64')
+            #print data[i]
+        result = []
+        pn = Virtual_Persona()
+        result = pn.getPersona(data[0],data[1],int(data[2]),int(data[3]),int(data[4]),int(data[5]),int(data[6]),int(data[7]),int(data[8]))
+        web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
+
+        finalresult = json.dumps(result)
+        return finalresult
+        # http://localhost:8080/VirtualPersona/sex=MQ==&age=MSwy&px3=Mw==&px4=Mg==&px5=Mg==&px6=Mw==&px7=Mg==&px8=Mw==&px9=Mw==
+
 #決策空間
 class GetDecision():
     def GET(self, name):
@@ -332,7 +348,17 @@ class Webapi():
                     ret = {"result":"[]","msg":"error_for_wrong_token"}
             else:
                 logger.debug("======")
-
+        if (data[0] == "select_POI_Watson"):
+            if (len(data[1]) > 0):
+                logger.debug(len(data[1]))
+                logger.debug(Config_2().token)
+                GPHD = getPOIWatsonData()
+                if data[4] == Config_2().token :
+                    ret = GPHD.getPOI(data[1],data[2],data[3])
+                else:
+                    ret = {"result":"[]","msg":"error_for_wrong_token"}
+            else:
+                logger.debug("======")
         return json.dumps(ret)
         
         #http://localhost:8080/Webapi/type=UE9J&cate=6aOy6aOf55u46Zec
