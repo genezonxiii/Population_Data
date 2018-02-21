@@ -9,7 +9,7 @@ import json
 import uuid
 import pyqrcode
 import png
-import pymssql
+# import pymssql
 
 #新品風向預測
 class ProductForecast():
@@ -519,13 +519,19 @@ class CalcuFinance():
             return result.append({'Outcome_False': tempresult})
             
     #總收入&總支出
-    def Combine_Total(self,result,data):
+    def Combine_Total(self, result, data):
         for row in data:
-            if row[1] =='I':
-                r={'Income_Total':[{'Total':float(row[0])}]}
+            if row[1] == 'I':
+                if (row[0] is None):
+                    r = {'Income_Total': [{'Total': float(0)}]}
+                else:
+                    r = {'Income_Total': [{'Total': float(row[0])}]}
                 result.append(r)
             else:
-                r = {'Outcome_Total': [{'Total': float(row[0])}]}
+                if (row[0] is None):
+                    r = {'Outcome_Total': [{'Total': float(0)}]}
+                else:
+                    r = {'Outcome_Total': [{'Total': float(row[0])}]}
                 result.append(r)
 
     #找出資金餘額低於安全餘額的日期
@@ -581,6 +587,114 @@ class Persona():
         #
         # result=self.getData(strSQL)
         # return self.calcuResult(X3,X4,X5,X6,X7,X8,X9,result)
+
+    # 取得 persona 消費矩陣
+    def getMatrix(self,data):
+        try:
+            strData = ""
+            for i in data:
+                strData += "'" + i + "',"
+            strSQL = "Select persona,Matrix1,Matrix2,Matrix3 From tb_persona_BD where persona in(" + strData[:len(strData)-1] + ")"
+            result = self.getData(strSQL)
+            strResult = []
+            for row in result:
+                if row[1] == None:
+                    row0 = ''
+                else:
+                    row0 = row[1]
+
+                if row[2] == None:
+                    row1 = ''
+                else:
+                    row1 = row[2]
+
+                if row[3] == None:
+                    row2 = ''
+                else:
+                    row2 = row[3]
+                strResult.append({"Persona":row[0],"Martix1": row0, "Martix2": row1, "Martix3": row2})
+            return strResult
+        except Exception as e:
+            print e.message
+            raise
+
+    #計算結果
+    def calcuResult(self,X3,X4,X5,X6,X7,X8,X9,result):
+        FinalResult = []
+        # strMatrix = []
+        for row in result:
+            Score = (abs(float(row[5])-X3)**2 + abs(float(row[6])-X4)**2 + abs(float(row[7])-X5)**2\
+                    + abs(float(row[8])-X6)**2 + abs(float(row[9])-X7)**2 + abs(float(row[10])-X8)**2\
+                    + (abs(float(row[11])-X9)**2))**(0.5)
+            FinalResult.append((row[1], Score))
+
+        #取最短距離
+        MinResult = min(FinalResult, key=lambda tup: tup[1])
+        #結果排序
+        #FinalResult.sort(key=lambda tup: tup[1], reverse=False)
+        # personResult = []
+        for row in FinalResult:
+            if row[1] == MinResult[1]:
+                r = {"PersonaCode": row[0], "Score": row[1]}
+                self.personResult.append(r)
+                # if str(row[0])[0].upper() not in(strMatrix):
+                #     strMatrix.append(str(row[0])[0].upper())
+        # result.append({"Persona":personResult})
+        # result.append({"Martix":self.getMartix(strMartix)})
+        # return {"Persona":personResult,"Matrix":self.getMatrix(strMatrix)}
+
+    # 取得 db 連線
+    def getConnection(self):
+        try:
+            if (self.conn == None):
+                config = Config_2()
+                return mysql.connector.connect(user=config.dbUser, password=config.dbPwd,
+                                               host=config.dbServer, database=config.dbName)
+            else:
+                return self.conn
+        except mysql.connector.Error:
+            print "Connection DB Error"
+            raise
+        except Exception as e:
+            print e.message
+            raise
+
+    #從 db 取得 select 結果
+    def getData(self, strSQL):
+        try:
+            self.conn = self.getConnection()
+            cursor = self.conn.cursor()
+            cursor.execute(strSQL)
+            data_row = []
+            for row in cursor.fetchall():
+                data_row.append(row)
+            cursor.close()
+            return data_row
+        except Exception as e:
+            print e.message
+            raise
+
+#虛擬目標客群
+class Virtual_Persona():
+    conn,personResult = None,None
+    def __init__(self):
+        self.personResult=[]
+
+    #取得 persona 查詢結果
+    def getPersona(self,Sex,Age,X3,X4,X5,X6,X7,X8,X9):
+        # 分群
+        strSex = Sex.split(',')
+        for i in range(len(strSex)):
+            strSQL = "SELECT * FROM tb_persona Where Sex=" + strSex[i]
+            strAge = Age.split(',')
+            for j in range(len(strAge)):
+                result = self.getData(strSQL + " And Age=" + strAge[j])
+                self.calcuResult(X3, X4, X5, X6, X7, X8, X9, result)
+        strMatrix = []
+        for row in self.personResult:
+            if str(row["PersonaCode"][0]).upper() not in (strMatrix):
+                strMatrix.append(str(row["PersonaCode"][0].upper()))
+        return {"Persona": self.personResult, "Matrix": self.getMatrix(strMatrix)}
 
     # 取得 persona 消費矩陣
     def getMatrix(self,data):
@@ -847,7 +961,7 @@ class EntrySrategy():
             raise
 
 if __name__ == '__main__':
-    Task=[False,False,False,False,False,False,False,True]
+    Task=[False,False,False,False,False,False,False,False,True]
 
     if Task[0]:
         PF = ProductForecast()
@@ -888,3 +1002,7 @@ if __name__ == '__main__':
     if Task[7]:
         ES = EntrySrategy()
         print ES.getEntrystrategy('2','1','1,2,3',3,2,2,3,2,3,3)
+
+    if Task[8]:
+        VP = Virtual_Persona()
+        print VP.getPersona('1','1,2',3,2,2,3,2,3,3)
