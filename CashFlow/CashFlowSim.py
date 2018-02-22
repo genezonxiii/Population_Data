@@ -28,6 +28,9 @@ class CashFlowSim():
             elif typeTrans == 2:
                 if trans[2] < 0:
                     tArr.append(trans[2])
+        if not tArr:
+            for trans in self.transData:
+                tArr.append(trans[2])
         pArr = numpy.array(tArr)
         return [pArr.sum(), pArr.mean(), pArr.std()]
 
@@ -66,7 +69,7 @@ class CashFlowSim():
 
     def simTrans(self, numTrans):
         _transDates = self.getTransDate()
-        _sampleDates = numpy.random.choice(_transDates, numTrans, replace=False)
+        _sampleDates = numpy.random.choice(_transDates, int(numTrans), replace=False)
 
         for tdate in _sampleDates:
             typeTrans = numpy.random.choice(2, 1, p=[0.3, 0.7]) + 1
